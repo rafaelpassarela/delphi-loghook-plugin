@@ -6,8 +6,13 @@ uses
   System.SysUtils;
 
 const
-  DLL_NAME = 'RpLogHookLib.dll';
-//  DLL_NAME = {$IFDEF WIN64} 'RpLogHookLibW64.dll' {$ELSE} 'RpLogHookLibW32.dll' {$ENDIF};
+  DLL_NAME = {$IFDEF DEBUG_MODE}
+               'RpLogHookLib.dll'
+             {$ELSE} {$IFDEF WIN64}
+               'RpLogHookLibW64.dll'
+             {$ELSE}
+               'RpLogHookLibW32.dll' {$ENDIF}
+             {$ENDIF};
 
 type
   // Exceptions of this type are automatically ignored (do not appear in the log)

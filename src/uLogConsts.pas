@@ -3,6 +3,9 @@ unit uLogConsts;
 interface
 
 const
+  C_DEFAULT_LOG_EXT = '.log';
+  C_DEFAULT_BKP_EXT = '.bkp';
+  C_DEFAULT_IMG_EXT = '.jpg';
   C_DEFAULT_LOG_DIR = 'Logs\';
   C_DEFAULT_IMG_DIR = 'Images\';
   C_DEFAULT_IGNORE_LIST = ';EResNotFound;EAbort;EDBClient;EExternalException;EIB_ISCError;EDatabaseError;EIdSocketError;EIdConnClosedGracefully;'; // ;Exception;

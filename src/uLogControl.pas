@@ -127,9 +127,9 @@ begin
   try
     lLista := TStringList.Create;
     { logs de erros }
-    FindLogFiles('*.log');
-    FindLogFiles('*.bkp*');
-
+    FindLogFiles('*' + C_DEFAULT_LOG_EXT);
+    FindLogFiles('*' + C_DEFAULT_BKP_EXT);
+    FindLogFiles(C_DEFAULT_IMG_DIR + '*' + C_DEFAULT_IMG_EXT);
     ApagaArquivoLog;
   finally
     FreeAndNil(lLista);
@@ -189,10 +189,10 @@ var
   lCount: Integer;
   lRec: TSearchRec;
 begin
-  lBaseName := StringReplace(AFileName, '.log', '', [rfIgnoreCase]);
+  lBaseName := StringReplace(AFileName, C_DEFAULT_LOG_EXT, '', [rfIgnoreCase]);
   lCount := 0;
   // renomeia o arquivo para o próximo arquivo de backup
-  if FindFirst(lBaseName + '.bkp*', faAnyFile, lRec) = 0 then
+  if FindFirst(lBaseName + C_DEFAULT_BKP_EXT + '*', faAnyFile, lRec) = 0 then
   begin
     repeat
       Inc(lCount);
@@ -200,14 +200,14 @@ begin
   end;
   Inc(lCount);
 
-  Result := lBaseName + '.bkp' + IntToStr(lCount);
+  Result := lBaseName + C_DEFAULT_BKP_EXT + IntToStr(lCount);
 end;
 
 function TLogControl.GetLogFileName: string;
 begin
   Result := FConfig.OutputDir
           + StringReplace(ExtractFileName(Application.ExeName), '.exe', '', [rfIgnoreCase])
-          + FormatDateTime('_YYYY-MM-DD_"E"rror', Date) + '.log';
+          + FormatDateTime('_YYYY-MM-DD_"E"rror', Date) + C_DEFAULT_LOG_EXT;
 end;
 
 procedure TLogControl.GetScreenShot(const pNumber: Integer);
@@ -281,7 +281,7 @@ begin
       ForceDirectories(FConfig.OutputDir + C_DEFAULT_IMG_DIR);
       lImgName := FConfig.OutputDir + C_DEFAULT_IMG_DIR + 'Img_'
                 + StringReplace(ExtractFileName(Application.ExeName), '.exe', '', [rfIgnoreCase])
-                + FormatFloat('_#000000000', pNumber) + '.jpg';
+                + FormatFloat('_#000000000', pNumber) + C_DEFAULT_IMG_EXT;
 
       lJPG.SaveToFile( lImgName );
     finally

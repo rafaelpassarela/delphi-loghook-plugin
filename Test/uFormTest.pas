@@ -46,6 +46,7 @@ var
 begin
   a := 'XYZ';
   x := StrToInt(a);
+  ShowMessage( IntToHex(x) );
 end;
 
 procedure TFormLogHookTest.ButtonSkipClick(Sender: TObject);
