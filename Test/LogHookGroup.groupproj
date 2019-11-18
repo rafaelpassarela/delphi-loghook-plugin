@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{034283C7-31B3-4D54-A6E0-9BA525E9C0C2}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="LogHookTestProj.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\RpLogHookLib.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="LogHookTestProj">
+        <MSBuild Projects="LogHookTestProj.dproj"/>
+    </Target>
+    <Target Name="LogHookTestProj:Clean">
+        <MSBuild Projects="LogHookTestProj.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LogHookTestProj:Make">
+        <MSBuild Projects="LogHookTestProj.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RpLogHookLib">
+        <MSBuild Projects="..\RpLogHookLib.dproj"/>
+    </Target>
+    <Target Name="RpLogHookLib:Clean">
+        <MSBuild Projects="..\RpLogHookLib.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RpLogHookLib:Make">
+        <MSBuild Projects="..\RpLogHookLib.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="LogHookTestProj;RpLogHookLib"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="LogHookTestProj:Clean;RpLogHookLib:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="LogHookTestProj:Make;RpLogHookLib:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

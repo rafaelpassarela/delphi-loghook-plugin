@@ -12,6 +12,7 @@ type
   LogHook = class
   private
     class var _LogControl: TLogControl;
+    class var _Initialized : Boolean;
   private
     class function GetLogControl : TLogControl;
     class procedure FreeLogControl;
@@ -25,6 +26,7 @@ type
     class function GetLogDir: string;
 
     class procedure Initialize(const pIniFile : string);
+    class procedure Finalize;
   end;
 
 procedure LogExceptionHook(ExceptObj: TObject; ExceptAddr: Pointer; OSException: Boolean);
@@ -77,17 +79,32 @@ begin
   Result := IncludeTrailingPathDelimiter(_LogControl.Config.OutputDir);
 end;
 
+class procedure LogHook.Finalize;
+begin
+  if LogHook._Initialized then
+  begin
+    JclRemoveExceptNotifier(LogExceptionHook);
+    LogHook.FreeLogControl;
+  end;
+  LogHook._Initialized := False;
+end;
+
 class procedure LogHook.Initialize(const pIniFile: string);
 begin
-  if not Assigned(LogHook._LogControl) then
+  if not LogHook._Initialized then
   begin
-    LogHook._LogControl := TLogControl.Create(pIniFile);
-    LogHook._LogControl.ClearErrorDetected;
+    if not Assigned(LogHook._LogControl) then
+    begin
+      LogHook._LogControl := TLogControl.Create(pIniFile);
+      LogHook._LogControl.ClearErrorDetected;
+    end;
+  //  JclStackTrackingOptions := [stStack, stExceptFrame, stRawMode, stAllModules, stStaticModuleList];
+    JclStackTrackingOptions := [stStack, stRawMode];
+    JclStartExceptionTracking;
+    JclAddExceptNotifier(LogExceptionHook);
+
+    LogHook._Initialized := True;
   end;
-//  JclStackTrackingOptions := [stStack, stExceptFrame, stRawMode, stAllModules, stStaticModuleList];
-  JclStackTrackingOptions := [stStack, stRawMode];
-  JclStartExceptionTracking;
-  JclAddExceptNotifier(LogExceptionHook);
 end;
 
 class procedure LogHook.LeaveCriticalArea;
@@ -101,9 +118,9 @@ begin
 end;
 
 initialization
+  LogHook._Initialized := False;
 
 finalization
-  JclRemoveExceptNotifier(LogExceptionHook);
-  LogHook.FreeLogControl;
+  LogHook.Finalize;
 
 end.
