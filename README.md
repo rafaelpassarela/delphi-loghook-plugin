@@ -1,0 +1,1 @@
+# delphi-loghook-plugin
