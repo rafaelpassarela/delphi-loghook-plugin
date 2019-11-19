@@ -82,7 +82,8 @@ var
   lIniFile : string;
 begin
   lIniFile := StringReplace(Application.ExeName, '.exe', '.ini', [rfIgnoreCase]);
-  LogHook.InitializeLogHook(PChar(lIniFile));
+  TLogHook.InitLogHook(lIniFile);
+//  LogHook.InitializeLogHook(PChar(lIniFile));
 end;
 
 procedure TFormLogHookTest.ButtonStopClick(Sender: TObject);
@@ -92,7 +93,8 @@ end;
 
 procedure TFormLogHookTest.ButtonStopDLLClick(Sender: TObject);
 begin
-  LogHook.FinalizeLogHook;
+//  LogHook.FinalizeLogHook;
+  TLogHook.FinalizeLogHook;
 end;
 
 end.

@@ -66,3 +66,5 @@ __recovery/
 *.stat
 
 Test/Win32/LogHookTestProj.ini
+/Test/Win32/Logs/Images/*.jpg
+/Test/Win32/Logs/*.log

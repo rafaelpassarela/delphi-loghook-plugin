@@ -5,13 +5,9 @@ interface
 uses
   uLogHook;
 
-// start
-procedure InitializeLogHook(const pConfigIniFilePath : string); stdcall;
-// stop
-procedure FinalizeLogHook; stdcall;
-// pause the trace info
+procedure InitializeLogHook(const pConfigIniFilePath : string); cdecl;
+procedure FinalizeLogHook; cdecl;
 procedure EnterCriticalArea; stdcall;
-// resume the trace info
 procedure LeaveCriticalArea; stdcall;
 
 implementation
