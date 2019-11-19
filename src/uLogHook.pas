@@ -94,12 +94,11 @@ begin
   if not LogHook._Initialized then
   begin
     if not Assigned(LogHook._LogControl) then
-    begin
       LogHook._LogControl := TLogControl.Create(pIniFile);
-      LogHook._LogControl.ClearErrorDetected;
-    end;
+
   //  JclStackTrackingOptions := [stStack, stExceptFrame, stRawMode, stAllModules, stStaticModuleList];
     JclStackTrackingOptions := [stStack, stRawMode];
+
     JclStartExceptionTracking;
     JclAddExceptNotifier(LogExceptionHook);
 

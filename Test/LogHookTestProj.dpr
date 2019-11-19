@@ -1,6 +1,7 @@
 program LogHookTestProj;
 
 uses
+  ShareMem,
   Vcl.Forms,
   uFormTest in 'uFormTest.pas' {FormLogHookTest},
   uLogHook in '..\src\uLogHook.pas',

@@ -26,6 +26,7 @@ type
     procedure ButtonSkipClick(Sender: TObject);
     procedure ButtonStartDLLClick(Sender: TObject);
     procedure ButtonStopDLLClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -47,6 +48,11 @@ begin
   a := 'XYZ';
   x := StrToInt(a);
   ShowMessage( IntToHex(x) );
+end;
+
+procedure TFormLogHookTest.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  TLogHook.FinalizeLogHook;
 end;
 
 procedure TFormLogHookTest.ButtonSkipClick(Sender: TObject);
@@ -73,27 +79,31 @@ procedure TFormLogHookTest.ButtonStartClick(Sender: TObject);
 var
   lIniFile : string;
 begin
+// Direct Code
   lIniFile := StringReplace(Application.ExeName, '.exe', '.ini', [rfIgnoreCase]);
-  uLogWrapper.InitializeLogHook(lIniFile);
+  uLogWrapper.InitializeLogHook(PChar(lIniFile));
 end;
 
 procedure TFormLogHookTest.ButtonStartDLLClick(Sender: TObject);
 var
   lIniFile : string;
 begin
+// DLL Code
   lIniFile := StringReplace(Application.ExeName, '.exe', '.ini', [rfIgnoreCase]);
-  TLogHook.InitLogHook(lIniFile);
+
 //  LogHook.InitializeLogHook(PChar(lIniFile));
+  TLogHook.InitLogHook(lIniFile);
 end;
 
 procedure TFormLogHookTest.ButtonStopClick(Sender: TObject);
 begin
+// Direct Code
   uLogWrapper.FinalizeLogHook;
 end;
 
 procedure TFormLogHookTest.ButtonStopDLLClick(Sender: TObject);
 begin
-//  LogHook.FinalizeLogHook;
+// DLL Code
   TLogHook.FinalizeLogHook;
 end;
 

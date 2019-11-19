@@ -105,7 +105,8 @@ var
     begin
       if GetFileAttributesEx(PChar(lLista.Strings[i]), GetFileExInfoStandard, @lFileAtr) then
       begin
-        if FileTimeToSystemTime(lFileAtr.ftCreationTime, SystemTime) and SystemTimeToTzSpecificLocalTime(nil, SystemTime, LocalTime) then
+        if FileTimeToSystemTime(lFileAtr.ftCreationTime, SystemTime)
+        and SystemTimeToTzSpecificLocalTime(nil, SystemTime, LocalTime) then
         begin
           DataArq := SystemTimeToDateTime(LocalTime);
           if DataArq < (Now - FConfig.LifeTime) then
@@ -143,6 +144,8 @@ begin
   FLastStackTrace := TStringList.Create;
   FUserInfo.Load;
   FConfig := TLogConfig.Create(pIniFilePath);
+
+  ClearErrorDetected;
 end;
 
 destructor TLogControl.Destroy;

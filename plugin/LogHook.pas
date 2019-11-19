@@ -3,7 +3,7 @@ unit LogHook;
 interface
 
 uses
-  System.SysUtils, Winapi.Windows, Vcl.Forms;
+  System.SysUtils, Winapi.Windows, Vcl.Forms, System.SysConst;
 
 const
   DLL_NAME =
@@ -20,10 +20,11 @@ const
 type
   // Exceptions of this type are automatically ignored (do not appear in the log)
   ExceptionNoInfo = class(Exception);
+  PObject = ^TObject;
 
-  // dll mapping
-  TDllInitializeLogHook = procedure(const pConfigIniFilePath : PChar); cdecl;
-  TDllLogHookProc = procedure; cdecl;
+  // dll mapping -> pointer signature must be the same as uLogWrapper signatures
+  TDllInitializeLogHook = procedure(const pConfigIniFilePath : PChar); stdcall;
+  TDllExternalLogEvent = procedure(pExceptObj: PObject); stdcall;
 
   TLogHook = class
   strict private
@@ -31,9 +32,10 @@ type
   private
     FDLLHandle : THandle;
     FInitHook : TDllInitializeLogHook;
-    FFinalizeHook : TDllLogHookProc;
-    FEnterCriticalArea: TDllLogHookProc;
-    FLeaveCriticalArea: TDllLogHookProc;
+    FFinalizeHook : TProcedure;
+    FEnterCriticalArea: TProcedure;
+    FLeaveCriticalArea: TProcedure;
+    FExternalLogEvent: TDllExternalLogEvent;
     procedure MapFunctions;
     procedure ClearMapFunctions;
     procedure DoException(Sender: TObject; E: Exception);
@@ -42,6 +44,7 @@ type
     procedure DoFinalize;
     procedure DoEnterCriticalArea;
     procedure DoLeaveCriticalArea;
+    procedure DoExternalLog(pExceptObj : PObject);
   public
     constructor Create;
     destructor Destroy; override;
@@ -53,7 +56,7 @@ type
   end;
 
 //// start
-//procedure InitializeLogHook(const pConfigIniFilePath : PChar); cdecl; external DLL_NAME;
+//procedure InitializeLogHook(const pConfigIniFilePath : PChar); stdcall; external DLL_NAME;
 //// stop
 //procedure FinalizeLogHook; cdecl; external DLL_NAME;
 //// pause the trace info
@@ -71,11 +74,15 @@ begin
   FFinalizeHook := nil;
   FEnterCriticalArea := nil;
   FLeaveCriticalArea := nil;
+  FExternalLogEvent := nil;
 end;
 
 constructor TLogHook.Create;
 begin
   FDLLHandle := LoadLibrary(DLL_NAME);
+  if FDLLHandle = 0 then
+    raise ExceptionNoInfo.CreateFmt('Unable to load %s', [DLL_NAME]);
+
   MapFunctions;
 end;
 
@@ -97,14 +104,33 @@ begin
 end;
 
 procedure TLogHook.DoException(Sender: TObject; E: Exception);
+{$IFNDEF CONSOLE}
 var
-  O : TObject;
+//  O : TObject;
+  lTitle : array[0..63] of Char;
+{$ENDIF}
 begin
-  OutputDebugString(PChar(E.Message));
-//        FOnException(Sender, Exception(O))
-//      else
-  O := ExceptObject;
-  ShowException(O, ExceptAddr);
+  {$IFDEF CONSOLE}
+  Writeln(E.Message);
+  {$ELSE}
+
+  DoExternalLog(@E);
+
+  LoadString(FindResourceHInstance(HInstance), PResStringRec(@SExceptTitle).Identifier,
+    lTitle, Length(lTitle));
+
+//  Display error message next to memory address
+//  O := ExceptObject;
+//  ShowException(O, ExceptAddr);
+
+  MessageBox(0, PChar(E.Message), lTitle, MB_OK or MB_ICONSTOP or MB_TASKMODAL);
+  {$ENDIF}
+end;
+
+procedure TLogHook.DoExternalLog(pExceptObj: PObject);
+begin
+  if Assigned(FExternalLogEvent) then
+    FExternalLogEvent(pExceptObj);
 end;
 
 procedure TLogHook.DoFinalize;
@@ -164,7 +190,8 @@ begin
     FInitHook := GetProcAddress(FDLLHandle, 'InitializeLogHook');
     FFinalizeHook := GetProcAddress(FDLLHandle, 'FinalizeLogHook');
     FEnterCriticalArea := GetProcAddress(FDLLHandle, 'EnterCriticalArea');
-    FLeaveCriticalArea:= GetProcAddress(FDLLHandle, 'LeaveCriticalArea');
+    FLeaveCriticalArea := GetProcAddress(FDLLHandle, 'LeaveCriticalArea');
+    FExternalLogEvent := GetProcAddress(FDLLHandle, 'ExternalLogEvent');
   end else
     ClearMapFunctions;
 end;

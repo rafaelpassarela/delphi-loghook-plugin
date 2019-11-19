@@ -28,7 +28,8 @@ exports
   InitializeLogHook,
   FinalizeLogHook,
   EnterCriticalArea,
-  LeaveCriticalArea;
+  LeaveCriticalArea,
+  ExternalLogEvent;
 
 begin
 end.

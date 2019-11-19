@@ -5,14 +5,19 @@ interface
 uses
   uLogHook;
 
-procedure InitializeLogHook(const pConfigIniFilePath : string); cdecl;
-procedure FinalizeLogHook; cdecl;
+type
+  PObject = ^TObject;
+
+// DLL Map for external applications
+procedure InitializeLogHook(pConfigIniFilePath : string); stdcall;
+procedure FinalizeLogHook; stdcall;
 procedure EnterCriticalArea; stdcall;
 procedure LeaveCriticalArea; stdcall;
+procedure ExternalLogEvent(pExceptObj: PObject); stdcall;
 
 implementation
 
-procedure InitializeLogHook(const pConfigIniFilePath : string);
+procedure InitializeLogHook(pConfigIniFilePath : string);
 begin
   LogHook.Initialize(pConfigIniFilePath);
 end;
@@ -30,6 +35,11 @@ end;
 procedure LeaveCriticalArea;
 begin
   LogHook.LeaveCriticalArea;
+end;
+
+procedure ExternalLogEvent(pExceptObj: PObject);
+begin
+  LogExceptionHook(pExceptObj^, nil, False);
 end;
 
 end.
