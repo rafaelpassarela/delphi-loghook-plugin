@@ -1,62 +1,20 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclSynch.pas.                                                               }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are Marcel van Brakel and Azret Botash.              }
-{ Portions created by these individuals are Copyright (C) of these individuals.                    }
-{ All Rights Reserved.                                                                             }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Olivier Sannier (obones)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains various classes and support routines for implementing synchronisation in      }
-{ multithreaded applications. This ranges from interlocked access to simple typed variables to     }
-{ wrapper classes for synchronisation primitives provided by the operating system                  }
-{ (critical section, semaphore, mutex etc). It also includes three user defined classes to         }
-{ complement these.                                                                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclSynch;
+unit uRpJclSynch;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  Winapi.Windows, JclWin32,
+  Winapi.Windows, uRpJclWin32,
   {$ENDIF MSWINDOWS}
   {$ELSE ~HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  Windows, JclWin32,
+  Windows, uRpJclWin32,
   {$ENDIF MSWINDOWS}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 // Locked Integer manipulation
 //
@@ -341,19 +299,6 @@ type
 
 function ValidateMutexName(const aName: string): string;
 
-
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -362,8 +307,7 @@ uses
   {$ELSE ~HAS_UNITSCOPE}
   SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclLogic, JclRegistry, JclResources,
-  JclSysInfo, JclStrings;
+  uRpJclLogic, uRpJclRegistry, uRpJclResources, uRpJclSysInfo, uRpJclStrings;
 
 const
   RegSessionManager = {HKLM\} 'SYSTEM\CurrentControlSet\Control\Session Manager';
@@ -1075,7 +1019,7 @@ constructor TJclMutex.Create(SecAttr: PSecurityAttributes; InitialOwner: Boolean
 begin
   inherited Create;
   FName := Name;
-  FHandle := JclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
+  FHandle := uRpJclWin32.CreateMutex(SecAttr, InitialOwner, PChar(Name));
   if FHandle = 0 then
     raise EJclMutexError.CreateRes(@RsSynchCreateMutex);
   FExisted := GetLastError = ERROR_ALREADY_EXISTS;
@@ -1758,15 +1702,5 @@ begin
     Result := aName;
   Result := StrReplaceChar(Result, '\', '_');
 end;
-
-
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

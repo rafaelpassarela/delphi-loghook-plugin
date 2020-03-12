@@ -11,6 +11,8 @@ uses
 
 type
   TLogControl = class
+  private class var
+    _LogHookCS: TCriticalSection;
   private
     FUserInfo : TLogUserInfo;
     FConfig: TLogConfig;
@@ -44,9 +46,6 @@ type
   end;
 
 implementation
-
-var
-  _LogHookCS: TCriticalSection;
 
 { TLogControl }
 
@@ -397,9 +396,9 @@ begin
 end;
 
 initialization
-  _LogHookCS := TCriticalSection.Create;
+  TLogControl._LogHookCS := TCriticalSection.Create;
 
 finalization
-  FreeAndNil(_LogHookCS);
+  FreeAndNil(TLogControl._LogHookCS);
 
 end.

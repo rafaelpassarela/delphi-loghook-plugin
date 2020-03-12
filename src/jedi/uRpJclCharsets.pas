@@ -1,46 +1,11 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclCharsets.pas.                                                            }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Florent Ouchet.                                    }
-{ Portions created by Florent Ouchet are Copyright Florent Ouchet. All rights reserved.            }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Windows codepage bindings are taken from IE5 ones:                                               }
-{      http://msdn.microsoft.com/en-us/library/aa752010(VS.85).aspx                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclCharsets;
+unit uRpJclCharsets;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
-  JclBase;
+  uRpJclBase;
 
 type
   EJclCharsetError = class(EJclError);
@@ -467,18 +432,6 @@ function CodePageFromCharsetName(const CharsetName: string): Word;
 function CharsetInfoFromCharsetName(const CharsetName: string): TJclCharsetInfo;
 function CharsetNameFromCodePage(CodePage: Word): string;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -487,7 +440,7 @@ uses
   {$ELSE ~HAS_UNITSCOPE}
   SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclResources;
+  uRpJclResources;
 
 function FamilyCodePageFromCharsetName(const CharsetName: string): Word;
 var
@@ -559,14 +512,6 @@ begin
   end;
   raise EJclCharsetError.CreateRes(@RsENoCharset);
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
 

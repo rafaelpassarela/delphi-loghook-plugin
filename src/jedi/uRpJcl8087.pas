@@ -1,52 +1,8 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is Jcl8087.pas                                                                 }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright Marcel van Brakel. All rights reserved.      }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   ESB Consultancy                                                                                }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones                                                                                     }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains various routine for manipulating the math coprocessor. This includes such     }
-{ things as querying and setting the rounding precision of  floating point operations and          }
-{ retrieving the coprocessor's status word.                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit Jcl8087;
+unit uRpJcl8087;
 
 {$I jcl.inc}
 
 interface
-
-{$IFDEF UNITVERSIONING}
-uses
-  JclUnitVersioning;
-{$ENDIF UNITVERSIONING}
 
 type
   T8087Precision = (pcSingle, pcReserved, pcDouble, pcExtended);
@@ -76,18 +32,6 @@ function GetMasked8087Exceptions: T8087Exceptions;
 function SetMasked8087Exceptions(Exceptions: T8087Exceptions; ClearBefore: Boolean = True): T8087Exceptions;
 function Mask8087Exceptions(Exceptions: T8087Exceptions): T8087Exceptions;
 function Unmask8087Exceptions(Exceptions: T8087Exceptions; ClearBefore: Boolean = True): T8087Exceptions;
-
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
 
 implementation
 
@@ -327,13 +271,5 @@ begin
   Exceptions := Result - Exceptions;
   SetMasked8087Exceptions(Exceptions, ClearBefore);
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

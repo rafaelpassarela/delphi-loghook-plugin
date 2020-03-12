@@ -1,55 +1,4 @@
-{**************************************************************************************************}
-{  WARNING:  JEDI preprocessor generated unit.  Do not edit.                                       }
-{**************************************************************************************************}
-
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ Portions of this code are translated from DelayImp.h.                                            }
-{ The Initial Developer of DelayImp.h is Inprise Corporation. Portions created by Inprise          }
-{ Corporation are Copyright (C) 1999, 2000 by Inprise Corporation. All Rights Reserved.            }
-{                                                                                                  }
-{ The Original Code is JclWin32.pas.                                                               }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel. Portions created by Marcel van  }
-{ Brakel are Copyright (C) Marcel van Brakel. All Rights Reserved.                                 }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Marcel van Brakel                                                                              }
-{   Peter Friese                                                                                   }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Flier Lu (flier)                                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   Florent Ouchet (outchy)                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit defines various Win32 API declarations which are either missing or incorrect in one or }
-{ more of the supported Delphi versions. This unit is not intended for regular code, only API      }
-{ declarations.                                                                                    }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclWin32;
+unit uRpJclWin32;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -60,9 +9,6 @@ unit JclWin32;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.SysUtils,
   {$IFNDEF FPC}
@@ -75,7 +21,7 @@ uses
   {$ENDIF ~FPC}
   ActiveX,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 {$HPPEMIT '#include <WinDef.h>'}
 {$HPPEMIT '#include <WinNT.h>'}
@@ -7924,21 +7870,10 @@ const
 
   RtdlNetBios: function(P: PNCB): UCHAR stdcall = NetBios;
 
-
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows'
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
-  JclResources;
+  uRpJclResources;
 
 procedure GetProcedureAddress(var P: Pointer; const ModuleName, ProcName: string);
 var
@@ -9316,16 +9251,6 @@ begin
   GetProcedureAddress(Pointer(@_NtQueryInformationThread), ntdll, 'NtQueryInformationThread');
   Result := _NtQueryInformationThread(ThreadHandle, ThreadInformationClass, ThreadInformation, ThreadInformationLength, ReturnLength);
 end;
-
-
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
 

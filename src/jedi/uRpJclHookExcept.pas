@@ -1,38 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclHookExcept.pas.                                                          }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Petr Vones. Portions created by Petr Vones are     }
-{ Copyright (C) Petr Vones. All Rights Reserved.                                                   }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Petr Vones (pvones)                                                                            }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Andreas Hausladen (ahuser)                                                                     }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Exception hooking routines                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclHookExcept;
+unit uRpJclHookExcept;
 
 interface
 
@@ -40,9 +6,6 @@ interface
 {$I windowsonly.inc}
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   System.Types, Winapi.Windows, System.SysUtils, System.Classes;
   {$ELSE ~HAS_UNITSCOPE}
@@ -94,24 +57,10 @@ function JclHookedExceptModulesList(out ModulesList: TJclModuleArray): Boolean;
 // Hooking routines location info helper
 function JclBelongsHookedCode(Address: Pointer): Boolean;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
-  JclBase,
-  JclPeImage,
-  JclSysInfo, JclSysUtils;
+  uRpJclBase, uRpJclPeImage, uRpJclSysInfo, uRpJclSysUtils;
 
 type
   PExceptionArguments = ^TExceptionArguments;
@@ -836,14 +785,8 @@ initialization
   {$IFDEF BORLAND}
   Filters := TThreadList.Create;
   {$ENDIF BORLAND}
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
 
 finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HOOK_DLL_EXCEPTIONS}
   FinalizeLibrariesHookExcept;
   {$ENDIF HOOK_DLL_EXCEPTIONS}

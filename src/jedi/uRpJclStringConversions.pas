@@ -1,46 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclUnicode.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Mike Lischke (public att lischke-online dott de).  }
-{ Portions created by Mike Lischke are Copyright (C) 1999-2000 Mike Lischke. All Rights Reserved.  }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Mike Lischke                                                                                   }
-{   Flier Lu (flier)                                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   Peter Schraut (http://www.console-dev.de)                                                      }
-{   Florent Ouchet (outchy)                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ String conversion routines                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclStringConversions;
+unit uRpJclStringConversions;
 
 {$I jcl.inc}
 
@@ -52,10 +10,7 @@ uses
   {$ELSE ~HAS_UNITSCOPE}
   Classes,
   {$ENDIF ~HAS_UNITSCOPE}
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
-  JclBase;
+  uRpJclBase;
 
 type
   EJclStringConversionError = class(EJclError);
@@ -280,18 +235,6 @@ function AnsiCharToUCS4(Value: AnsiChar): UCS4;
 function WideCharToUCS4(Value: WideChar): UCS4;
 function CharToUCS4(Value: Char): UCS4; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF SUPPORTS_INLINE}
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -304,7 +247,7 @@ uses
   Windows,
   {$ENDIF MSWINDOWS}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclResources;
+  uRpJclResources;
 
 const MB_ERR_INVALID_CHARS = 8;
 
@@ -3873,13 +3816,5 @@ begin
   Result := AnsiCharToUCS4(Value);
   {$ENDIF ~SUPPORTS_UNICODE}
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

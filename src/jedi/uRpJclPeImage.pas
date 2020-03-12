@@ -1,45 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclPeImage.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Petr Vones. Portions created by Petr Vones are     }
-{ Copyright (C) Petr Vones. All Rights Reserved.                                                   }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Uwe Schuster (uschuster)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   Hallvard Vassbotn                                                                              }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains various classes and support routines to read the contents of portable         }
-{ executable (PE) files. You can use these classes to, for example examine the contents of the     }
-{ imports section of an executable. In addition the unit contains support for Borland specific     }
-{ structures and name unmangling.                                                                  }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclPeImage;
+unit uRpJclPeImage;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -47,15 +6,12 @@ unit JclPeImage;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.Classes, System.SysUtils, System.TypInfo, System.Contnrs,
   {$ELSE ~HAS_UNITSCOPE}
   Windows, Classes, SysUtils, TypInfo, Contnrs,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclDateTime, JclFileUtils, JclWin32;
+  uRpJclBase, uRpJclDateTime, uRpJclFileUtils, uRpJclWin32;
 
 type
   // Smart name compare function
@@ -1097,18 +1053,6 @@ function PeIsNameMangled(const Name: string): TJclPeUmResult;
 function UndecorateSymbolName(const DecoratedName: string; out UnMangled: string; Flags: DWORD): Boolean;
 function PeUnmangleName(const Name: string; out Unmangled: string): TJclPeUmResult;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -1124,7 +1068,8 @@ uses
   Character,
   {$ENDIF HAS_UNIT_CHARACTER}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclLogic, JclResources, JclSysUtils, JclAnsiStrings, JclStrings, JclStringConversions;
+  uRpJclLogic, uRpJclResources, uRpJclSysUtils, uRpJclAnsiStrings,
+  uRpJclStrings, uRpJclStringConversions;
 
 const
   MANIFESTExtension = '.manifest';
@@ -7023,13 +6968,5 @@ begin
   if Result = umNotMangled then
     Unmangled := Name;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

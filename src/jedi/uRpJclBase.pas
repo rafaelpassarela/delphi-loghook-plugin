@@ -1,51 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclBase.pas.                                                                }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright Marcel van Brakel. All rights reserved.      }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Marcel van Brakel,                                                                             }
-{   Peter Friese,                                                                                  }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Petr Vones (pvones)                                                                            }
-{   Florent Ouchet (outchy)                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains generic JCL base classes and routines to support earlier                      }
-{ versions of Delphi as well as FPC.                                                               }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclBase;
+unit uRpJclBase;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -113,7 +72,7 @@ type
   UInt64 = Int64;
   {$ENDIF ~COMPILER7_UP}
   PWideChar = System.PWideChar;
-  PPWideChar = ^JclBase.PWideChar;
+  PPWideChar = ^uRpJclBase.PWideChar;
   PPAnsiChar = ^PAnsiChar;
   PInt64 = type System.PInt64;
   {$ENDIF ~FPC}
@@ -404,22 +363,10 @@ const
 procedure GetMem(out P; Size: Longint);
 {$ENDIF FPC}
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
-  JclResources;
+  uRpJclResources;
 
 procedure MoveChar(const Source: string; FromIndex: SizeInt;
   var Dest: string; ToIndex, Count: SizeInt);
@@ -474,14 +421,14 @@ end;
 function BytesOf(const Value: WideString): TBytes;
 begin
   if Value <> '' then
-    Result := JclBase.BytesOf(AnsiString(Value))
+    Result := uRpJclBase.BytesOf(AnsiString(Value))
   else
     SetLength(Result, 0);
 end;
 
 function BytesOf(const Value: WideChar): TBytes;
 begin
-  Result := JclBase.BytesOf(WideString(Value));
+  Result := uRpJclBase.BytesOf(WideString(Value));
 end;
 
 function BytesOf(const Value: AnsiChar): TBytes;
@@ -629,15 +576,6 @@ end;
 {$ENDIF FPC}
 
 initialization
-
   LoadAnsiReplacementCharacter;
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
-
-finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
 
 end.

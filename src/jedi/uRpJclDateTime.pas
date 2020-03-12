@@ -1,53 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclDateTime.pas.                                                            }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright Marcel van Brakel. All rights reserved.      }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Anthony Steele                                                                                 }
-{   Charlie Calvert                                                                                }
-{   Heri Bender                                                                                    }
-{   Marc Convents                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Michael Schnell                                                                                }
-{   Nick Hodges                                                                                    }
-{   Petr Vones                                                                                     }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Uwe Schuster (uschuster)                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Routines for working with dates and times. Mostly conversion between the                         }
-{ different formats but also some date testing routines (is leap year? etc)                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-// in Help:
-//  We do all conversions (but thoses provided by Delphi anyway) between
-//  TDateTime, TDosDateTime, TFileTime and TSystemTime plus
-//  TDatetime, TDosDateTime, TFileTime, TSystemTime to string
-
-unit JclDateTime;
+unit uRpJclDateTime;
 
 {$I jcl.inc}
 {$I crossplatform.inc}
@@ -55,9 +6,6 @@ unit JclDateTime;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -79,7 +27,7 @@ uses
   {$ENDIF ~LINUX}
   {$ENDIF FPC}
   {$ENDIF}
-  JclBase, JclResources;
+  uRpJclBase, uRpJclResources;
 
 const
   // 1970-01-01T00:00:00 in TDateTime
@@ -216,22 +164,10 @@ function IndexedDayOfWeek(const Year, Month, DayOfWeek, Index: Integer): Integer
 type
   EJclDateTimeError = class(EJclError);
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
-  JclSysUtils;
+  uRpJclSysUtils;
 
 const
   DaysInMonths: array [1..12] of Integer =
@@ -1436,14 +1372,6 @@ begin
   if (Result < 0) or (Result > DaysInMonth(EncodeDate(Year, Month, 1))) then
     Result := 0;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
 

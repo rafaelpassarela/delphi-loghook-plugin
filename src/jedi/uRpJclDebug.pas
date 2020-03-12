@@ -1,46 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclDebug.pas.                                                               }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are Petr Vones and Marcel van Brakel.                }
-{ Portions created by these individuals are Copyright (C) of these individuals.                    }
-{ All Rights Reserved.                                                                             }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Flier Lu (flier)                                                                               }
-{   Florent Ouchet (outchy)                                                                        }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Petr Vones (pvones)                                                                            }
-{   Soeren Muehlbauer                                                                              }
-{   Uwe Schuster (uschuster)                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various debugging support routines and classes. This includes: Diagnostics routines, Trace       }
-{ routines, Stack tracing and Source Locations a la the C/C++ __FILE__ and __LINE__ macros.        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclDebug;
+unit uRpJclDebug;
 
 interface
 
@@ -48,9 +6,6 @@ interface
 {$I windowsonly.inc}
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -62,11 +17,11 @@ uses
   {$ENDIF MSWINDOWS}
   Classes, SysUtils, Contnrs,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclFileUtils, JclPeImage,
+  uRpJclBase, uRpJclFileUtils, uRpJclPeImage,
   {$IFDEF BORLAND}
-  JclTD32,
+  uRpJclTD32,
   {$ENDIF BORLAND}
-  JclSynch;
+  uRpJclSynch;
 
 // Diagnostics
 procedure AssertKindOf(const ClassName: string; const Obj: TObject); overload;
@@ -1057,18 +1012,6 @@ function IsIgnoredException(const ExceptionClass: TClass): Boolean;
 // function to add additional system modules to be included in the stack trace
 procedure AddModule(const ModuleName: string);
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -1091,10 +1034,10 @@ uses
   {$ENDIF SUPPORTS_GENERICS}
   {$ENDIF ~HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  JclRegistry,
+  uRpJclRegistry,
   {$ENDIF MSWINDOWS}
-  JclHookExcept, JclAnsiStrings, JclStrings, JclSysInfo, JclSysUtils, JclWin32,
-  JclStringConversions, JclResources;
+  uRpJclHookExcept, uRpJclAnsiStrings, uRpJclStrings, uRpJclSysInfo, uRpJclSysUtils,
+  uRpJclWin32, uRpJclStringConversions, uRpJclResources;
 
 //=== Helper assembler routines ==============================================
 
@@ -3479,12 +3422,6 @@ var
   Info, StartProcInfo: TJclLocationInfo;
   FixedProcedureName: string;
   Module: HMODULE;
-  {$IFDEF UNITVERSIONING}
-  I: Integer;
-  UnitVersion: TUnitVersion;
-  UnitVersioning: TUnitVersioning;
-  UnitVersioningModule: TUnitVersioningModule;
-  {$ENDIF UNITVERSIONING}
 begin
   FValues := [];
   if liloAutoGetAddressInfo in AOptions then
@@ -3495,9 +3432,6 @@ begin
   end
   else
   begin
-    {$IFDEF UNITVERSIONING}
-    Module := 0;
-    {$ENDIF UNITVERSIONING}
     FVAddress := nil;
     FModuleName := '';
   end;
@@ -3543,33 +3477,6 @@ begin
   FUnitVersionLogPath := '';
   FUnitVersionRCSfile := '';
   FUnitVersionRevision := '';
-  {$IFDEF UNITVERSIONING}
-  if (liloAutoGetUnitVersionInfo in AOptions) and (FSourceName <> '') then
-  begin
-    if not (liloAutoGetAddressInfo in AOptions) then
-      Module := ModuleFromAddr(FAddress);
-    UnitVersioning := GetUnitVersioning;
-    for I := 0 to UnitVersioning.ModuleCount - 1 do
-    begin
-      UnitVersioningModule := UnitVersioning.Modules[I];
-      if UnitVersioningModule.Instance = Module then
-      begin
-        UnitVersion := UnitVersioningModule.FindUnit(FSourceName);
-        if Assigned(UnitVersion) then
-        begin
-          FUnitVersionDateTime := UnitVersion.DateTime;
-          FUnitVersionLogPath := UnitVersion.LogPath;
-          FUnitVersionRCSfile := UnitVersion.RCSfile;
-          FUnitVersionRevision := UnitVersion.Revision;
-          FValues := FValues + [lievUnitVersionInfo];
-          Break;
-        end;
-      end;
-      if lievUnitVersionInfo in FValues then
-        Break;
-    end;
-  end;
-  {$ENDIF UNITVERSIONING}
 end;
 
 { TODO -oUSc : Include... better as function than property? }
@@ -4134,35 +4041,35 @@ type
   TSymCleanupFunc = function (hProcess: THandle): Bool; stdcall;
   {$IFDEF CPU32}
   TSymGetSymFromAddrAFunc = function (hProcess: THandle; dwAddr: DWORD;
-    pdwDisplacement: PDWORD; var Symbol: JclWin32.TImagehlpSymbolA): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Symbol: uRpJclWin32.TImagehlpSymbolA): Bool; stdcall;
   TSymGetSymFromAddrWFunc = function (hProcess: THandle; dwAddr: DWORD;
-    pdwDisplacement: PDWORD; var Symbol: JclWin32.TImagehlpSymbolW): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Symbol: uRpJclWin32.TImagehlpSymbolW): Bool; stdcall;
   TSymGetModuleInfoAFunc = function (hProcess: THandle; dwAddr: DWORD;
-    var ModuleInfo: JclWin32.TImagehlpModuleA): Bool; stdcall;
+    var ModuleInfo: uRpJclWin32.TImagehlpModuleA): Bool; stdcall;
   TSymGetModuleInfoWFunc = function (hProcess: THandle; dwAddr: DWORD;
-    var ModuleInfo: JclWin32.TImagehlpModuleW): Bool; stdcall;
+    var ModuleInfo: uRpJclWin32.TImagehlpModuleW): Bool; stdcall;
   TSymLoadModuleFunc = function (hProcess: THandle; hFile: THandle; ImageName,
     ModuleName: LPSTR; BaseOfDll: DWORD; SizeOfDll: DWORD): DWORD; stdcall;
   TSymGetLineFromAddrAFunc = function (hProcess: THandle; dwAddr: DWORD;
-    pdwDisplacement: PDWORD; var Line: JclWin32.TImageHlpLineA): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Line: uRpJclWin32.TImageHlpLineA): Bool; stdcall;
   TSymGetLineFromAddrWFunc = function (hProcess: THandle; dwAddr: DWORD;
-    pdwDisplacement: PDWORD; var Line: JclWin32.TImageHlpLineW): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Line: uRpJclWin32.TImageHlpLineW): Bool; stdcall;
   {$ENDIF CPU32}
   {$IFDEF CPU64}
   TSymGetSymFromAddrAFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    pdwDisplacement: PDWORD64; var Symbol: JclWin32.TImagehlpSymbolA64): Bool; stdcall;
+    pdwDisplacement: PDWORD64; var Symbol: uRpJclWin32.TImagehlpSymbolA64): Bool; stdcall;
   TSymGetSymFromAddrWFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    pdwDisplacement: PDWORD64; var Symbol: JclWin32.TImagehlpSymbolW64): Bool; stdcall;
+    pdwDisplacement: PDWORD64; var Symbol: uRpJclWin32.TImagehlpSymbolW64): Bool; stdcall;
   TSymGetModuleInfoAFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    var ModuleInfo: JclWin32.TImagehlpModuleA64): Bool; stdcall;
+    var ModuleInfo: uRpJclWin32.TImagehlpModuleA64): Bool; stdcall;
   TSymGetModuleInfoWFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    var ModuleInfo: JclWin32.TImagehlpModuleW64): Bool; stdcall;
+    var ModuleInfo: uRpJclWin32.TImagehlpModuleW64): Bool; stdcall;
   TSymLoadModuleFunc = function (hProcess: THandle; hFile: THandle; ImageName,
     ModuleName: LPSTR; BaseOfDll: DWORD64; SizeOfDll: DWORD): DWORD; stdcall;
   TSymGetLineFromAddrAFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    pdwDisplacement: PDWORD; var Line: JclWin32.TImageHlpLineA64): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Line: uRpJclWin32.TImageHlpLineA64): Bool; stdcall;
   TSymGetLineFromAddrWFunc = function (hProcess: THandle; dwAddr: DWORD64;
-    pdwDisplacement: PDWORD; var Line: JclWin32.TImageHlpLineW64): Bool; stdcall;
+    pdwDisplacement: PDWORD; var Line: uRpJclWin32.TImageHlpLineW64): Bool; stdcall;
   {$ENDIF CPU64}
 
 var
@@ -4344,7 +4251,7 @@ begin
         Info.Address := Addr;
         Info.BinaryFileName := FileName;
         Info.OffsetFromProcName := Displacement;
-        JclPeImage.UnDecorateSymbolName(string(PWideChar(@SymbolW^.Name[0])), Info.ProcedureName, UNDNAME_NAME_ONLY or UNDNAME_NO_ARGUMENTS);
+        uRpJclPeImage.UnDecorateSymbolName(string(PWideChar(@SymbolW^.Name[0])), Info.ProcedureName, UNDNAME_NAME_ONLY or UNDNAME_NO_ARGUMENTS);
       end;
     finally
       FreeMem(SymbolW);
@@ -4367,7 +4274,7 @@ begin
         Info.Address := Addr;
         Info.BinaryFileName := FileName;
         Info.OffsetFromProcName := Displacement;
-        JclPeImage.UnDecorateSymbolName(string(PAnsiChar(@SymbolA^.Name[0])), Info.ProcedureName, UNDNAME_NAME_ONLY or UNDNAME_NO_ARGUMENTS);
+        uRpJclPeImage.UnDecorateSymbolName(string(PAnsiChar(@SymbolA^.Name[0])), Info.ProcedureName, UNDNAME_NAME_ONLY or UNDNAME_NO_ARGUMENTS);
       end;
     finally
       FreeMem(SymbolA);
@@ -7294,9 +7201,6 @@ initialization
   GlobalModulesList := TJclGlobalModulesList.Create;
   GlobalStackList := TJclGlobalStackList.Create;
   AddIgnoredException(EAbort);
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_EXCEPTION_STACKTRACE}
   SetupExceptionProcs;
   {$ENDIF HAS_EXCEPTION_STACKTRACE}
@@ -7305,9 +7209,6 @@ finalization
   {$IFDEF HAS_EXCEPTION_STACKTRACE}
   ResetExceptionProcs;
   {$ENDIF HAS_EXCEPTION_STACKTRACE}
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
 
   { TODO -oPV -cInvestigate : Calling JclStopExceptionTracking causes linking of various classes to
     the code without a real need. Although there doesn't seem to be a way to unhook exceptions

@@ -1,40 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclTD32.pas.                                                                }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Flier Lu (<flier_lu att yahoo dott com dott cn>).  }
-{ Portions created by Flier Lu are Copyright (C) Flier Lu.  All Rights Reserved.                   }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Flier Lu (flier)                                                                               }
-{   Olivier Sannier (obones)                                                                       }
-{   Petr Vones (pvones)                                                                            }
-{   Heinz Zastrau (heinzz)                                                                         }
-{   Andreas Hausladen (ahuser)                                                                     }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Borland TD32 symbolic debugging information support routines and classes.                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclTD32;
+unit uRpJclTD32;
 
 interface
 
@@ -42,9 +6,6 @@ interface
 {$I windowsonly.inc}
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -56,11 +17,11 @@ uses
   {$ENDIF MSWINDOWS}
   Classes, SysUtils, Contnrs,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase,
+  uRpJclBase,
   {$IFDEF BORLAND}
-  JclPeImage,
+  uRpJclPeImage,
   {$ENDIF BORLAND}
-  JclFileUtils;
+  uRpJclFileUtils;
 
 { TODO -cDOC : Original code: "Flier Lu" <flier_lu att yahoo dott com dott cn> }
 
@@ -858,22 +819,10 @@ type
   end;
   {$ENDIF BORLAND}
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
-  JclResources, JclSysUtils, JclStringConversions;
+  uRpJclResources, uRpJclSysUtils, uRpJclStringConversions;
 
 {$IFDEF BORLAND}
 const
@@ -1709,12 +1658,5 @@ begin
 end;
 
 {$ENDIF BORLAND}
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

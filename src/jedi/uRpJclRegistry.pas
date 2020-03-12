@@ -1,49 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclRegistry.pas.                                                            }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are John C Molyneux, Marcel van Brakel and           }
-{ Charlie Calvert. Portions created by these individuals are Copyright (C) of these individuals.   }
-{ All Rights Reserved.                                                                             }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Marcel van Brakel                                                                              }
-{   Stephane Fillon                                                                                }
-{   Eric S.Fisher                                                                                  }
-{   Peter Friese                                                                                   }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Manlio Laschena (manlio)                                                                       }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Petr Vones (pvones)                                                                            }
-{   kogerbnz                                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Contains various utility routines to read and write registry values. Using these routines        }
-{ prevents you from having to instantiate temporary TRegistry objects and since the routines       }
-{ directly call the registry API they do not suffer from the resource overhead as TRegistry does.  }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclRegistry;
+unit uRpJclRegistry;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -51,15 +6,12 @@ unit JclRegistry;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.Classes,
   {$ELSE ~HAS_UNITSCOPE}
   Windows, Classes,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclStrings;
+  uRpJclBase, uRpJclStrings;
 
 type
   DelphiHKEY = {$IFDEF CPUX64}type Winapi.Windows.HKEY{$ELSE}Longword{$ENDIF CPUX64};
@@ -378,18 +330,6 @@ type
 function RegGetWOW64AccessMode: TJclRegWOW64Access;
 procedure RegSetWOW64AccessMode(Access: TJclRegWOW64Access);
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -403,10 +343,9 @@ uses
   {$IFDEF FPC}
 //  JwaAccCtrl,
   {$ELSE ~FPC}
-  JclSysUtils,
+  uRpJclSysUtils,
   {$ENDIF ~FPC}
-  JclResources, JclWin32, JclSysInfo,
-  JclAnsiStrings, JclWideStrings;
+  uRpJclResources, uRpJclWin32, uRpJclSysInfo, uRpJclAnsiStrings, uRpJclWideStrings;
 
 type
   TRegKind = REG_NONE..REG_QWORD;
@@ -1343,7 +1282,7 @@ var
 begin
   Result := InternalGetAnsiString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
-    JclStrings.MultiSzToStrings(Value, PAnsiMultiSz(PChar(S)));
+    uRpJclStrings.MultiSzToStrings(Value, PAnsiMultiSz(PChar(S)));
 end;
 {$ENDIF ~SUPPORTS_UNICODE}
 
@@ -1382,26 +1321,26 @@ begin
   Result := InternalGetAnsiString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
     // always returns a newly allocated PMultiSz
-    RetValue := JclAnsiStrings.MultiSzDup(PAnsiMultiSz(S))
+    RetValue := uRpJclAnsiStrings.MultiSzDup(PAnsiMultiSz(S))
   else
     RetValue := nil;
 end;
 {$ENDIF ~SUPPORTS_UNICODE}
 
-function RegReadMultiSz(const RootKey: DelphiHKEY; const Key, Name: string): JclStrings.PMultiSz;
+function RegReadMultiSz(const RootKey: DelphiHKEY; const Key, Name: string): uRpJclStrings.PMultiSz;
 begin
   RegReadMultiSzEx(RootKey, Key, Name, Result, True);
 end;
 
-function RegReadMultiSzDef(const RootKey: DelphiHKEY; const Key, Name: string; Def: JclStrings.PMultiSz): JclStrings.PMultiSz;
+function RegReadMultiSzDef(const RootKey: DelphiHKEY; const Key, Name: string; Def: uRpJclStrings.PMultiSz): uRpJclStrings.PMultiSz;
 begin
   try
     if not RegReadMultiSzEx(RootKey, Key, Name, Result, False) then
       // always returns a newly allocated PMultiSz
-      Result := JclStrings.MultiSzDup(Def);
+      Result := uRpJclStrings.MultiSzDup(Def);
   except
     // always returns a newly allocated PMultiSz
-    Result := JclStrings.MultiSzDup(Def);
+    Result := uRpJclStrings.MultiSzDup(Def);
   end;
 end;
 
@@ -1412,7 +1351,7 @@ var
 begin
   Result := InternalGetAnsiString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
-    JclAnsiStrings.MultiSzToStrings(Value, PAnsiMultiSz(S));
+    uRpJclAnsiStrings.MultiSzToStrings(Value, PAnsiMultiSz(S));
 end;
 
 procedure RegReadAnsiMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; Value: TAnsiStrings);
@@ -1439,7 +1378,7 @@ begin
   Result := InternalGetAnsiString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
     // always returns a newly allocated PMultiAnsiSz
-    RetValue := JclAnsiStrings.MultiSzDup(PAnsiMultiSz(S));
+    RetValue := uRpJclAnsiStrings.MultiSzDup(PAnsiMultiSz(S));
 end;
 
 function RegReadAnsiMultiSz(const RootKey: DelphiHKEY; const Key, Name: string): PAnsiMultiSz;
@@ -1452,10 +1391,10 @@ begin
   try
     if RegReadAnsiMultiSzEx(RootKey, Key, Name, Result, False) then
       // always returns a newly allocated PAnsiMultiSz
-      Result := JclAnsiStrings.MultiSzDup(Def);
+      Result := uRpJclAnsiStrings.MultiSzDup(Def);
   except
     // always returns a newly allocated PAnsiMultiSz
-    Result := JclAnsiStrings.MultiSzDup(Def);
+    Result := uRpJclAnsiStrings.MultiSzDup(Def);
   end;
 end;
 
@@ -1466,7 +1405,7 @@ var
 begin
   Result := InternalGetWideString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
-    JclWideStrings.MultiSzToStrings(Value, PWideMultiSz(S));
+    uRpJclWideStrings.MultiSzToStrings(Value, PWideMultiSz(S));
 end;
 
 procedure RegReadWideMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; Value: TWideStrings);
@@ -1493,7 +1432,7 @@ begin
   Result := InternalGetWideString(RootKey, Key, Name, True, S, RaiseException);
   if Result then
     // always returns a newly allocated PMultiWideSz
-    RetValue := JclWideStrings.MultiSzDup(PWideMultiSz(S));
+    RetValue := uRpJclWideStrings.MultiSzDup(PWideMultiSz(S));
 end;
 
 function RegReadWideMultiSz(const RootKey: DelphiHKEY; const Key, Name: string): PWideMultiSz;
@@ -1506,10 +1445,10 @@ begin
   try
     if RegReadWideMultiSzEx(RootKey, Key, Name, Result, False) then
       // always returns a newly allocated PWideMultiSz
-      Result := JclWideStrings.MultiSzDup(Def);
+      Result := uRpJclWideStrings.MultiSzDup(Def);
   except
     // always returns a newly allocated PWideMultiSz
-    Result := JclWideStrings.MultiSzDup(Def);
+    Result := uRpJclWideStrings.MultiSzDup(Def);
   end;
 end;
 
@@ -1742,12 +1681,12 @@ begin
     DataError(RootKey, Key, Name);
 end;
 
-procedure RegWriteMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; Value: JclStrings.PMultiSz);
+procedure RegWriteMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; Value: uRpJclStrings.PMultiSz);
 begin
   RegWriteMultiSz(RootKey, Key, Name, REG_MULTI_SZ, Value);
 end;
 
-procedure RegWriteMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; DataType: Cardinal; Value: JclStrings.PMultiSz);
+procedure RegWriteMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; DataType: Cardinal; Value: uRpJclStrings.PMultiSz);
 begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
     {$IFDEF SUPPORTS_UNICODE}
@@ -1755,7 +1694,7 @@ begin
       MultiSzLength(Value) * SizeOf(Char))
     {$ELSE ~SUPPORTS_UNICODE}
     InternalSetAnsiData(RootKey, Key, Name, DataType, Value,
-      JclStrings.MultiSzLength(Value) * SizeOf(Char))
+      uRpJclStrings.MultiSzLength(Value) * SizeOf(Char))
     {$ENDIF ~SUPPORTS_UNICODE}
   else
     DataError(RootKey, Key, Name);
@@ -1769,16 +1708,16 @@ end;
 procedure RegWriteMultiSz(const RootKey: DelphiHKEY; const Key, Name: string; DataType: Cardinal;
   const Value: TStrings);
 var
-  Dest: JclStrings.PMultiSz;
+  Dest: uRpJclStrings.PMultiSz;
 begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
   begin
     Dest := nil;
-    JclStrings.StringsToMultiSz(Dest, Value);
+    uRpJclStrings.StringsToMultiSz(Dest, Value);
     try
       RegWriteMultiSz(RootKey, Key, Name, DataType, Dest);
     finally
-      JclStrings.FreeMultiSz(Dest);
+      uRpJclStrings.FreeMultiSz(Dest);
     end;
   end
   else
@@ -1795,7 +1734,7 @@ procedure RegWriteAnsiMultiSz(const RootKey: DelphiHKEY; const Key, Name: string
 begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
     InternalSetAnsiData(RootKey, Key, Name, DataType, Value,
-      JclAnsiStrings.MultiSzLength(Value) * SizeOf(AnsiChar))
+      uRpJclAnsiStrings.MultiSzLength(Value) * SizeOf(AnsiChar))
   else
     DataError(RootKey, Key, Name);
 end;
@@ -1813,11 +1752,11 @@ begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
   begin
     Dest := nil;
-    JclAnsiStrings.StringsToMultiSz(Dest, Value);
+    uRpJclAnsiStrings.StringsToMultiSz(Dest, Value);
     try
       RegWriteAnsiMultiSz(RootKey, Key, Name, DataType, Dest);
     finally
-      JclAnsiStrings.FreeMultiSz(Dest);
+      uRpJclAnsiStrings.FreeMultiSz(Dest);
     end;
   end
   else
@@ -1834,7 +1773,7 @@ procedure RegWriteWideMultiSz(const RootKey: DelphiHKEY; const Key, Name: string
 begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
     InternalSetWideData(RootKey, Key, Name, DataType, Value,
-      JclWideStrings.MultiSzLength(Value) * SizeOf(WideChar))
+      uRpJclWideStrings.MultiSzLength(Value) * SizeOf(WideChar))
   else
     DataError(RootKey, Key, Name);
 end;
@@ -1852,11 +1791,11 @@ begin
   if DataType in [REG_BINARY, REG_MULTI_SZ] then
   begin
     Dest := nil;
-    JclWideStrings.StringsToMultiSz(Dest, Value);
+    uRpJclWideStrings.StringsToMultiSz(Dest, Value);
     try
       RegWriteWideMultiSz(RootKey, Key, Name, DataType, Dest);
     finally
-      JclWideStrings.FreeMultiSz(Dest);
+      uRpJclWideStrings.FreeMultiSz(Dest);
     end;
   end
   else
@@ -2143,14 +2082,6 @@ begin
   else
     CmdLine := '';
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
 

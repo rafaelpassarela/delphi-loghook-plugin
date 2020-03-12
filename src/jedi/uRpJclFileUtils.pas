@@ -1,63 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclFileUtils.pas.                                                           }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Andre Snepvangers (asnepvangers)                                                               }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Anthony Steele                                                                                 }
-{   Rik Barker (rikbarker)                                                                         }
-{   Azret Botash                                                                                   }
-{   Charlie Calvert                                                                                }
-{   David Hervieux                                                                                 }
-{   Florent Ouchet (outchy)                                                                        }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   Jens Fudickar (jfudickar)                                                                      }
-{   JohnML                                                                                         }
-{   John Molyneux                                                                                  }
-{   Marcel Bestebroer                                                                              }
-{   Marcel van Brakel                                                                              }
-{   Massimo Maria Ghisalberti                                                                      }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Olivier Sannier (obones)                                                                       }
-{   Pelle F. S. Liljendal                                                                          }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Rudy Velthuis                                                                                  }
-{   Scott Price                                                                                    }
-{   Wim De Cleen                                                                                   }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains routines and classes for working with files, directories and path strings.    }
-{ Additionally it contains wrapper classes for file mapping objects and version resources.         }
-{ Generically speaking, everything that has to do with files and directories. Note that filesystem }
-{ specific functionality has been extracted into external units, for example JclNTFS which         }
-{ contains NTFS specific utility routines, and that the JclShell unit contains some file related   }
-{ routines as well but they are specific to the Windows shell.                                     }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclFileUtils;
+unit uRpJclFileUtils;
 
 {$I jcl.inc}
 {$I crossplatform.inc}
@@ -65,15 +6,12 @@ unit JclFileUtils;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNIT_LIBC}
   Libc,
   {$ENDIF HAS_UNIT_LIBC}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
-  Winapi.Windows, JclWin32,
+  Winapi.Windows, uRpJclWin32,
   {$ENDIF MSWINDOWS}
   System.Classes, System.SysUtils,
   {$ELSE ~HAS_UNITSCOPE}
@@ -82,7 +20,7 @@ uses
   {$ENDIF MSWINDOWS}
   Classes, SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclSysUtils;
+  uRpJclBase, uRpJclSysUtils;
 
 // Path Manipulation
 //
@@ -1067,19 +1005,6 @@ function ParamPos (const SearchName: string; const Separator: string = '=';
              CaseSensitive: Boolean = False;
              const AllowedPrefixCharacters: string = '-/'): Integer;
 
-
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -1091,7 +1016,7 @@ uses
   System.Math,
   {$IFDEF MSWINDOWS}
   Winapi.ShellApi, Winapi.ActiveX, System.Win.ComObj, Winapi.ShlObj,
-  JclShell, JclSysInfo, JclSecurity,
+  uRpJclShell, uRpJclSysInfo, uRpJclSecurity,
   {$ENDIF MSWINDOWS}
   {$ELSE ~HAS_UNITSCOPE}
   {$IFDEF HAS_UNIT_CHARACTER}
@@ -1103,8 +1028,7 @@ uses
   JclShell, JclSysInfo, JclSecurity,
   {$ENDIF MSWINDOWS}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclDateTime, JclResources,
-  JclStrings;
+  uRpJclDateTime, uRpJclResources, uRpJclStrings;
 
 { Some general notes:
 
@@ -2551,7 +2475,7 @@ var
 
 function Kernel32Handle: HMODULE;
 begin
-  JclSysUtils.LoadModule(_Kernel32Handle, kernel32);
+  uRpJclSysUtils.LoadModule(_Kernel32Handle, kernel32);
   Result := _Kernel32Handle;
 end;
 
@@ -7054,14 +6978,5 @@ begin
     end;
   end;
 end;
-
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

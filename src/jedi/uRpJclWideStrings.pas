@@ -1,60 +1,16 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is WStrUtils.PAS, released on 2004-01-25.                                      }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are:                                                 }
-{   - Andreas Hausladen <Andreas dott Hausladen att gmx dott de>                                   }
-{   - Mike Lischke (WideQuotedStr & WideExtractQuotedStr from Unicode.pas)                         }
-{ Portions created by Andreas Hausladen are Copyright (C) of Andreas Hausladen.                    }
-{ All rights reserved.                                                                             }
-{ Portions created by Mike Lischke are Copyright (C) of Mike Lischke. All rights reserved.         }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   ZENsan                                                                                         }
-{   Florent Ouchet (outchy)                                                                        }
-{   Kiriakos Vlahos                                                                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This is a lightweight Unicode unit. For more features use JclUnicode.                            }
-{                                                                                                  }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclWideStrings;
+unit uRpJclWideStrings;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   System.Classes, System.SysUtils,
   {$ELSE ~HAS_UNITSCOPE}
   Classes, SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 // Exceptions
 type
@@ -339,18 +295,6 @@ procedure AllocateMultiSz(var Dest: PWideMultiSz; Len: SizeInt);
 procedure FreeMultiSz(var Dest: PWideMultiSz);
 function MultiSzDup(const Source: PWideMultiSz): PWideMultiSz;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -371,8 +315,7 @@ uses
   {$ENDIF MSWINDOWS}
   Math,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclUnicode,
-  JclResources;
+  uRpJclUnicode, uRpJclResources;
 
 procedure SwapWordByteOrder(P: PWideChar; Len: SizeInt);
 begin
@@ -2305,13 +2248,5 @@ begin
   else
     Result := nil;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

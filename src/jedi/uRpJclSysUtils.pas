@@ -1,62 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclSysUtils.pas.                                                            }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Alexander Radchenko,                                                                           }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Anthony Steele                                                                                 }
-{   Bernhard Berger                                                                                }
-{   Heri Bender                                                                                    }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   Jens Fudickar                                                                                  }
-{   Jeroen Speldekamp                                                                              }
-{   Marcel van Brakel                                                                              }
-{   Peter Friese                                                                                   }
-{   Petr Vones (pvones)                                                                            }
-{   Python                                                                                         }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert R. Marsh                                                                                }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Rudy Velthuis                                                                                  }
-{   Uwe Schuster (uschuster)                                                                       }
-{   Wayne Sherman                                                                                  }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Description: Various pointer and class related routines.                                         }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclSysUtils;
+unit uRpJclSysUtils;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -68,7 +16,7 @@ uses
   {$ENDIF MSWINDOWS}
   SysUtils, Classes, TypInfo, SyncObjs,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclSynch;
+  uRpJclBase, uRpJclSynch;
 
 // memory initialization
 // first parameter is "out" to make FPC happy with uninitialized values
@@ -851,19 +799,6 @@ function VarIsNullEmpty(const V: Variant): Boolean;
 // Validates if then variant value is null or is empty or VarToStr is a blank string
 function VarIsNullEmptyBlank(const V: Variant): Boolean;
 
-
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -871,7 +806,7 @@ uses
   Libc,
   {$ENDIF HAS_UNIT_LIBC}
   {$IFDEF MSWINDOWS}
-  JclConsole,
+  uRpJclConsole,
   {$ENDIF MSWINDOWS}
   {$IFDEF HAS_UNITSCOPE}
   System.Variants, System.Types, System.Contnrs,
@@ -884,8 +819,8 @@ uses
   AnsiStrings,
   {$ENDIF HAS_UNIT_ANSISTRINGS}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclFileUtils, JclMath, JclResources, JclStrings,
-  JclStringConversions, JclSysInfo, JclWin32;
+  uRpJclFileUtils, uRpJclMath, uRpJclResources, uRpJclStrings,
+  uRpJclStringConversions, uRpJclSysInfo, uRpJclWin32;
 
 // memory initialization
 procedure ResetMemory(out P; Size: Longint);
@@ -3421,9 +3356,9 @@ end;
 function TJclCommandLineTool.Execute(const CommandLine: string): Boolean;
 begin
   if Assigned(FOutputCallback) then
-    Result := JclSysUtils.Execute(Format('"%s" %s', [ExeName, CommandLine]), FOutputCallback) = 0
+    Result := uRpJclSysUtils.Execute(Format('"%s" %s', [ExeName, CommandLine]), FOutputCallback) = 0
   else
-    Result := JclSysUtils.Execute(Format('"%s" %s', [ExeName, CommandLine]), FOutput) = 0;
+    Result := uRpJclSysUtils.Execute(Format('"%s" %s', [ExeName, CommandLine]), FOutput) = 0;
 end;
 
 function TJclCommandLineTool.GetExeName: string;
@@ -4504,14 +4439,8 @@ end;
 
 initialization
   SimpleLog := nil;
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
 
 finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
   {$IFDEF MSWINDOWS}
   {$IFDEF THREADSAFE}
   // The user must release shared memory blocks himself. We don't clean up his

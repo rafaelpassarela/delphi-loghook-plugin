@@ -1,75 +1,13 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclSysInfo.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Alexander Radchenko                                                                            }
-{   Andre Snepvangers (asnepvangers)                                                               }
-{   Azret Botash                                                                                   }
-{   Bryan Coutch                                                                                   }
-{   Carl Clark                                                                                     }
-{   Eric S. Fisher                                                                                 }
-{   Florent Ouchet (outchy)                                                                        }
-{   Heiko Adams                                                                                    }
-{   James Azarja                                                                                   }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   John C Molyneux                                                                                }
-{   Marcel van Brakel                                                                              }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Mike Lischke                                                                                   }
-{   Nick Hodges                                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Peter Friese                                                                                   }
-{   Peter Thornquist (peter3)                                                                      }
-{   Petr Vones (pvones)                                                                            }
-{   Rik Barker                                                                                     }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Scott Price                                                                                    }
-{   Tom Hahn (tomhahn)                                                                             }
-{   Wim de Cleen                                                                                   }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains routines and classes to retrieve various pieces of system information.        }
-{ Examples are the location of standard folders, settings of environment variables, processor      }
-{ details and the Windows version.                                                                 }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
 // Windows NT 4 and earlier do not support GetSystemPowerStatus (while introduced
 // in NT4 - it is a stub there - implemented in Windows 2000 and later.
 
-
-unit JclSysInfo;
+unit uRpJclSysInfo;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNIT_LIBC}
   Libc,
   {$ENDIF HAS_UNIT_LIBC}
@@ -84,7 +22,7 @@ uses
   {$ENDIF MSWINDOWS}
   Classes,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclResources;
+  uRpJclBase, uRpJclResources;
 
 // Environment Variables
 {$IFDEF MSWINDOWS}
@@ -1410,32 +1348,20 @@ var
   AllocGranularity: Cardinal = 0;
   PageSize: Cardinal = 0;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
   {$IFDEF HAS_UNITSCOPE}
   System.SysUtils, System.Math,
   {$IFDEF MSWINDOWS}
-  Winapi.Messages, Winapi.Winsock, Snmp,
+  Winapi.Messages, Winapi.Winsock, uRpSnmp,
   {$IFDEF FPC}
   JwaTlHelp32, JwaPsApi,
   {$ELSE ~FPC}
   Winapi.TLHelp32, Winapi.PsApi,
-  JclShell,
+  uRpJclShell,
   {$ENDIF ~FPC}
-  JclRegistry, JclWin32,
+  uRpJclRegistry, uRpJclWin32,
   {$ENDIF MSWINDOWS}
   {$ELSE ~HAS_UNITSCOPE}
   SysUtils,
@@ -1451,8 +1377,8 @@ uses
   JclRegistry, JclWin32,
   {$ENDIF MSWINDOWS}
   {$ENDIF ~HAS_UNITSCOPE}
-  Jcl8087, JclIniFiles,
-  JclSysUtils, JclFileUtils, JclAnsiStrings, JclStrings;
+  uRpJcl8087, uRpJclIniFiles, uRpJclSysUtils, uRpJclFileUtils,
+  uRpJclAnsiStrings, uRpJclStrings;
 
 {$IFDEF FPC}
 {$IFDEF MSWINDOWS}
@@ -1541,7 +1467,7 @@ function ExpandEnvironmentVarCustom(var Value: string; Vars: TStrings): Boolean;
       // handle quotes first
       if (R[Position] = NativeSingleQuote) then
       begin
-        Index := JclStrings.CharPos(Quotes, NativeSingleQuote);
+        Index := uRpJclStrings.CharPos(Quotes, NativeSingleQuote);
         if Index >= 0 then
           SetLength(Quotes, Index - 1)
         else
@@ -1550,7 +1476,7 @@ function ExpandEnvironmentVarCustom(var Value: string; Vars: TStrings): Boolean;
 
       if (R[Position] = NativeDoubleQuote) then
       begin
-        Index := JclStrings.CharPos(Quotes, NativeDoubleQuote);
+        Index := uRpJclStrings.CharPos(Quotes, NativeDoubleQuote);
         if Index >= 0 then
           SetLength(Quotes, Index - 1)
         else
@@ -1559,7 +1485,7 @@ function ExpandEnvironmentVarCustom(var Value: string; Vars: TStrings): Boolean;
 
       if (R[Position] = '`') then
       begin
-        Index := JclStrings.CharPos(Quotes, '`');
+        Index := uRpJclStrings.CharPos(Quotes, '`');
         if Index >= 0 then
           SetLength(Quotes, Index - 1)
         else
@@ -6401,14 +6327,8 @@ end;
 
 initialization
   InitSysInfo;
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
 
 finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
   FinalizeSysInfo;
 
 {$ENDIF MSWINDOWS}

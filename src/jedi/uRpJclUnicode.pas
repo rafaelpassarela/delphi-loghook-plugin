@@ -1,177 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclUnicode.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Mike Lischke (public att lischke-online dott de).  }
-{ Portions created by Mike Lischke are Copyright (C) 1999-2000 Mike Lischke. All Rights Reserved.  }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Mike Lischke                                                                                   }
-{   Flier Lu (flier)                                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   Peter Schraut (http://www.console-dev.de)                                                      }
-{   Florent Ouchet (outchy)                                                                        }
-{   glchapman                                                                                      }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various Unicode related routines                                                                 }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclUnicode;
+unit uRpJclUnicode;
 
 {$I jcl.inc}
-
-// Copyright (c) 1999-2000 Mike Lischke (public att lischke-online dott de)
-//
-
-// 10-JUL-2005: (changes by Peter Schraut)
-//   - added CodeBlockName, returns the blockname as string
-//   - added CodeBlockRange, returns the range of the specified codeblock
-//   - updated TUnicodeBlock to reflect changes in unicode 4.1
-//   - updated CodeBlockFromChar to reflect changes in unicode 4.1
-//   - Notes:
-//      Here are a few suggestions to reflect latest namechanges in unicode 4.1,
-//      but they were not done due to compatibility with old code:
-//      ubGreek should be renamed to ubGreekandCoptic
-//      ubCombiningMarksforSymbols should be renamed  to ubCombiningDiacriticalMarksforSymbols
-//      ubPrivateUse should be renamed to ubPrivateUseArea
-//
-//
-// 19-SEP-2003: (changes by Andreas Hausladen)
-//   - added OWN_WIDESTRING_MEMMGR for faster memory managment in TWideStringList
-//     under Windows
-//   - fixed: TWideStringList.Destroy does not set OnChange and OnChanging to nil before calling Clear
-//
-//
-// 29-MAR-2002: MT
-//   - WideNormalize now returns strings with normalization mode nfNone unchanged.
-//   - Bug fix in WideCompose: Raised exception when Result of WideComposeHangul was an
-//     empty string. (#0000044)
-//   - Bug fix in WideAdjustLineBreaks
-//   - Added Asserts were needed.
-//   - TWideStrings.IndexOfName now takes care of NormalizeForm as well.
-//   - TWideStrings.IndexOf now takes care of NormalizeForm as well.
-//   - TWideString.List Find now uses the same NormalizationForm for the search string as it uses
-//     within the list itself.
-//
-// 29-NOV-2001:
-//   - bug fix
-// 06-JUN-2001:
-//   - small changes
-// 28-APR-2001:
-//   - bug fixes
-// 05-APR-2001:
-//   - bug fixes
-// 23-MAR-2001:
-//   - WideSameText
-//   - small changes
-// 10-FEB-2001:
-//   - bug fix in StringToWideStringEx and WideStringToStringEx
-// 05-FEB-2001:
-//   - TWideStrings.GetSeparatedText changed (no separator anymore after the last line)
-// 29-JAN-2001:
-//   - PrepareUnicodeData
-//   - LoadInProgress critical section is now created at init time to avoid critical thread races
-//   - bug fixes
-// 26-JAN-2001:
-//   - ExpandANSIString
-//   - TWideStrings.SaveUnicode is by default True now
-// 20..21-JAN-2001:
-//   - StrUpperW, StrLowerW and StrTitleW removed because they potentially would need
-//     a reallocation to work correctly (use the WideString versions instead)
-//   - further improvements related to internal data
-//   - introduced TUnicodeBlock
-//   - CodeBlockFromChar improved
-// 07-JAN-2001:
-//   optimized access to character properties, combining class etc.
-// 06-JAN-2001:
-//   TWideStrings and TWideStringList improved
-// APR-DEC 2000: versions 2.1 - 2.6
-//   - preparation for public rlease
-//   - additional conversion routines
-//   - JCL compliance
-//   - character properties unified
-//   - character properties data and lookup improvements
-//   - reworked Unicode data resource file
-//   - improved simple string comparation routines (StrCompW, StrLCompW etc., include surrogate fix)
-//   - special case folding data for language neutral case insensitive comparations included
-//   - optimized decomposition
-//   - composition and normalization support
-//   - normalization conformance tests applied
-//   - bug fixes
-// FEB-MAR 2000: version 2.0
-//   - Unicode regular expressions (URE) search class (TURESearch)
-//   - generic search engine base class for both the Boyer-Moore and the RE search class
-//   - whole word only search in UTBM, bug fixes in UTBM
-//   - string decompositon (including hangul)
-// OCT/99 - JAN/2000: version 1.0
-//   - basic Unicode implementation, more than 100 WideString/UCS2 and UCS4 core functions
-//   - TWideStrings and TWideStringList classes
-//   - Unicode Tuned Boyer-Moore search class (TUTBMSearch)
-//   - low and high level Unicode/Wide* functions
-//   - low level Unicode UCS4 data import and functions
-//   - helper functions
-//
-//  Version 2.9
-// This unit contains routines and classes to manage and work with Unicode/WideString strings.
-// You need Delphi 4 or higher to compile this code.
-//
-// Publicly available low level functions are all preceded by "Unicode..." (e.g.
-// in UnicodeToUpper) while the high level functions use the Str... or Wide...
-// naming scheme (e.g. StrLICompW and WideUpperCase).
-//
-// The normalization implementation in this unit has successfully and completely passed the
-// official normative conformance testing as of Annex 9 in Technical Report #15
-// (Unicode Standard Annex #15, http://www.unicode.org/unicode/reports/tr15, from 2000-08-31).
-//
-// Open issues:
-//   - Yet to do things in the URE class are:
-//     - check all character classes if they match correctly
-//     - optimize rebuild of DFA (build only when pattern changes)
-//     - set flag parameter of ExecuteURE
-//     - add \d     any decimal digit
-//           \D     any character that is not a decimal digit
-//           \s     any whitespace character
-//           \S     any character that is not a whitespace character
-//           \w     any "word" character
-//           \W     any "non-word" character
-//   - The wide string classes still compare text with functions provided by the
-//     particular system. This works usually fine under WinNT/W2K (although also
-//     there are limitations like maximum text lengths). Under Win9x conversions
-//     from and to MBCS are necessary which are bound to a particular locale and
-//     so very limited in general use. These comparisons should be changed so that
-//     the code in this unit is used.
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -189,7 +22,7 @@ uses
   Character,
   {$ENDIF HAS_UNIT_CHARACTER}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 {$IFNDEF FPC}
  {$IFDEF MSWINDOWS}
@@ -1585,18 +1418,6 @@ function UCS4ArrayEquals(const Left: TUCS4Array; Right: UCS4): Boolean; overload
 function UCS4ArrayEquals(const Left: TUCS4Array; const Right: AnsiString): Boolean; overload; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 function UCS4ArrayEquals(const Left: TUCS4Array; Right: AnsiChar): Boolean; overload; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 // Unicode data for case mapping, decomposition, numbers etc. This data is
@@ -1633,12 +1454,13 @@ uses
   {$IFDEF UNICODE_ZLIB_DATA}
   ZLibh,
   {$ENDIF UNICODE_ZLIB_DATA}
-  JclStreams,
+  uRpJclStreams,
   {$IFNDEF UNICODE_RAW_DATA}
-  JclCompression,
+  uRpJclCompression,
   {$ENDIF ~UNICODE_RAW_DATA}
   {$ENDIF ~UNICODE_RTL_DATABASE}
-  JclResources, JclSynch, JclSysUtils, JclSysInfo, JclStringConversions, JclWideStrings;
+  uRpJclResources, uRpJclSynch, uRpJclSysUtils, uRpJclSysInfo, uRpJclStringConversions,
+  uRpJclWideStrings;
 
 const
   {$IFDEF FPC} // declarations from unit [Rtl]Consts
@@ -7976,14 +7798,8 @@ end;
 
 initialization
   PrepareUnicodeData;
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
 
 finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
   FreeUnicodeData;
 
 end.

@@ -1,48 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclStreams.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Robert Marquardt. Portions created by              }
-{ Robert Marquardt are Copyright (C) Robert Marquardt (robert_marquardt att gmx dott de)           }
-{ All rights reserved.                                                                             }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Florent Ouchet (outchy)                                                                        }
-{   Heinz Zastrau                                                                                  }
-{   Andreas Schmidt                                                                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Stream-related functions and classes                                                             }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclStreams;
+unit uRpJclStreams;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -59,7 +21,7 @@ uses
   {$IFDEF HAS_UNIT_LIBC}
   Libc,
   {$ENDIF HAS_UNIT_LIBC}
-  JclBase, JclStringConversions;
+  uRpJclBase, uRpJclStringConversions;
 
 const
   StreamDefaultBufferSize = 4096;
@@ -583,28 +545,13 @@ function CompareStreams(A, B : TStream; BufferSize: Longint = StreamDefaultBuffe
 // compares 2 files for differencies (calling CompareStreams)
 function CompareFiles(const FileA, FileB: TFileName; BufferSize: Longint = StreamDefaultBufferSize): Boolean;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
   {$IFDEF HAS_UNITSCOPE}
   System.Types,
   {$ENDIF HAS_UNITSCOPE}
-  JclResources,
-  JclCharsets,
-  JclMath,
-  JclSysUtils;
+  uRpJclResources, uRpJclCharsets, uRpJclMath, uRpJclSysUtils;
 
 function StreamCopy(Source: TStream; Dest: TStream; BufferSize: Longint): Int64;
 var
@@ -3117,13 +3064,5 @@ begin
   Result := 0;
   InvalidateBuffers;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

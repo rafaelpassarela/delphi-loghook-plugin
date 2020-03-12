@@ -1,71 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclStrings.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Alexander Radchenko                                                                            }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Anthony Steele                                                                                 }
-{   Azret Botash                                                                                   }
-{   Barry Kelly                                                                                    }
-{   Huanlin Tsai                                                                                   }
-{   Jack N.A. Bakker                                                                               }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   John C Molyneux                                                                                }
-{   Kiriakos Vlahos                                                                                }
-{   Leonard Wennekers                                                                              }
-{   Marcel Bestebroer                                                                              }
-{   Martin Kimmings                                                                                }
-{   Martin Kubecka                                                                                 }
-{   Massimo Maria Ghisalberti                                                                      }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Michael Winter                                                                                 }
-{   Nick Hodges                                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Pelle F. S. Liljendal                                                                          }
-{   Petr Vones (pvones)                                                                            }
-{   Rik Barker (rikbarker)                                                                         }
-{   Robert Lee                                                                                     }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Andreas Schmidt                                                                                }
-{   Sean Farrow (sfarrow)                                                                          }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various character and string routines (searching, testing and transforming)                      }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclStrings;
+unit uRpJclStrings;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -83,9 +22,7 @@ uses
   {$ENDIF UNICODE_RTL_DATABASE}
   Classes, SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclAnsiStrings,
-  JclWideStrings,
-  JclBase;
+  uRpJclAnsiStrings, uRpJclWideStrings, uRpJclBase;
 
 // Exceptions
 type
@@ -105,11 +42,11 @@ const
   NativeBell = Char(#7);
   NativeBackspace = Char(#8);
   NativeTab = Char(#9);
-  NativeLineFeed = JclBase.NativeLineFeed;
+  NativeLineFeed = uRpJclBase.NativeLineFeed;
   NativeVerticalTab = Char(#11);
   NativeFormFeed = Char(#12);
-  NativeCarriageReturn = JclBase.NativeCarriageReturn;
-  NativeCrLf = JclBase.NativeCrLf;
+  NativeCarriageReturn = uRpJclBase.NativeCarriageReturn;
+  NativeCrLf = uRpJclBase.NativeCrLf;
   NativeSo = Char(#14);
   NativeSi = Char(#15);
   NativeDle = Char(#16);
@@ -136,7 +73,7 @@ const
   NativeDoubleQuote = Char('"');
   NativeSingleQuote = Char('''');
 
-  NativeLineBreak = JclBase.NativeLineBreak;
+  NativeLineBreak = uRpJclBase.NativeLineBreak;
 
 const
   // CharType return values
@@ -345,13 +282,13 @@ procedure FreePCharVector(var Dest: PCharVector);
 // MultiSz Routines
 type
   PMultiSz = PChar;
-  PAnsiMultiSz = JclAnsiStrings.PAnsiMultiSz;
-  PWideMultiSz = JclWideStrings.PWideMultiSz;
+  PAnsiMultiSz = uRpJclAnsiStrings.PAnsiMultiSz;
+  PWideMultiSz = uRpJclWideStrings.PWideMultiSz;
 
-  TAnsiStrings = JclAnsiStrings.TJclAnsiStrings;
-  TWideStrings = JclWideStrings.TJclWideStrings;
-  TAnsiStringList = JclAnsiStrings.TJclAnsiStringList;
-  TWideStringList = JclWideStrings.TJclWideStringList;
+  TAnsiStrings = uRpJclAnsiStrings.TJclAnsiStrings;
+  TWideStrings = uRpJclWideStrings.TJclWideStrings;
+  TAnsiStringList = uRpJclAnsiStrings.TJclAnsiStringList;
+  TWideStringList = uRpJclWideStrings.TJclWideStringList;
 
 function StringsToMultiSz(var Dest: PMultiSz; const Source: TStrings): PMultiSz;
 procedure MultiSzToStrings(const Dest: TStrings; const Source: PMultiSz);
@@ -622,18 +559,6 @@ var
   StrCharTypes: array [Char] of Word;
 {$ENDIF ~UNICODE_RTL_DATABASE}
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -647,7 +572,7 @@ uses
   StrUtils,
   {$ENDIF ~HAS_UNITSCOPE}
   {$ENDIF SUPPORTS_UNICODE}
-  JclLogic, JclResources, JclStreams, JclSynch, JclSysUtils;
+  uRpJclLogic, uRpJclResources, uRpJclStreams, uRpJclSynch, uRpJclSysUtils;
 
 //=== Internal ===============================================================
 
@@ -3249,62 +3174,62 @@ end;
 
 function AnsiStringsToAnsiMultiSz(var Dest: PAnsiMultiSz; const Source: TAnsiStrings): PAnsiMultiSz;
 begin
-  Result := JclAnsiStrings.StringsToMultiSz(Dest, Source);
+  Result := uRpJclAnsiStrings.StringsToMultiSz(Dest, Source);
 end;
 
 procedure AnsiMultiSzToAnsiStrings(const Dest: TAnsiStrings; const Source: PAnsiMultiSz);
 begin
-  JclAnsiStrings.MultiSzToStrings(Dest, Source);
+  uRpJclAnsiStrings.MultiSzToStrings(Dest, Source);
 end;
 
 function AnsiMultiSzLength(const Source: PAnsiMultiSz): SizeInt;
 begin
-  Result := JclAnsiStrings.MultiSzLength(Source);
+  Result := uRpJclAnsiStrings.MultiSzLength(Source);
 end;
 
 procedure AllocateAnsiMultiSz(var Dest: PAnsiMultiSz; Len: SizeInt);
 begin
-  JclAnsiStrings.AllocateMultiSz(Dest, Len);
+  uRpJclAnsiStrings.AllocateMultiSz(Dest, Len);
 end;
 
 procedure FreeAnsiMultiSz(var Dest: PAnsiMultiSz);
 begin
-  JclAnsiStrings.FreeMultiSz(Dest);
+  uRpJclAnsiStrings.FreeMultiSz(Dest);
 end;
 
 function AnsiMultiSzDup(const Source: PAnsiMultiSz): PAnsiMultiSz;
 begin
-  Result := JclAnsiStrings.MultiSzDup(Source);
+  Result := uRpJclAnsiStrings.MultiSzDup(Source);
 end;
 
 function WideStringsToWideMultiSz(var Dest: PWideMultiSz; const Source: TWideStrings): PWideMultiSz;
 begin
-  Result := JclWideStrings.StringsToMultiSz(Dest, Source);
+  Result := uRpJclWideStrings.StringsToMultiSz(Dest, Source);
 end;
 
 procedure WideMultiSzToWideStrings(const Dest: TWideStrings; const Source: PWideMultiSz);
 begin
-  JclWideStrings.MultiSzToStrings(Dest, Source);
+  uRpJclWideStrings.MultiSzToStrings(Dest, Source);
 end;
 
 function WideMultiSzLength(const Source: PWideMultiSz): SizeInt;
 begin
-  Result := JclWideStrings.MultiSzLength(Source);
+  Result := uRpJclWideStrings.MultiSzLength(Source);
 end;
 
 procedure AllocateWideMultiSz(var Dest: PWideMultiSz; Len: SizeInt);
 begin
-  JclWideStrings.AllocateMultiSz(Dest, Len);
+  uRpJclWideStrings.AllocateMultiSz(Dest, Len);
 end;
 
 procedure FreeWideMultiSz(var Dest: PWideMultiSz);
 begin
-  JclWideStrings.FreeMultiSz(Dest);
+  uRpJclWideStrings.FreeMultiSz(Dest);
 end;
 
 function WideMultiSzDup(const Source: PWideMultiSz): PWideMultiSz;
 begin
-  Result := JclWideStrings.MultiSzDup(Source);
+  Result := uRpJclWideStrings.MultiSzDup(Source);
 end;
 
 //=== TStrings Manipulation ==================================================
@@ -3547,7 +3472,7 @@ begin
     List.Clear;
     Start := Pointer(S);
     repeat
-      Done := JclStrings.StrWord(Start, Token);
+      Done := uRpJclStrings.StrWord(Start, Token);
       if Token <> '' then
         List.Add(Token);
     until Done;
@@ -5405,14 +5330,6 @@ initialization
   LoadCharTypes;  // this table first
   LoadCaseMap;    // or this function does not work
   {$ENDIF ~UNICODE_RTL_DATABASE}
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
-
-{$IFDEF UNITVERSIONING}
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
 

@@ -5,7 +5,7 @@ interface
 
 uses
   SysUtils, Forms, IniFiles, Windows, Classes, Graphics, Jpeg,
-  ExtCtrls, JclDebug, JclHookExcept, SyncObjs, uLogConfig,
+  ExtCtrls, uRpJclDebug, uRpJclHookExcept, SyncObjs, uLogConfig,
   uLogUserInfo, uLogControl;
 
 type

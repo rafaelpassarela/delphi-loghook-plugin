@@ -3,8 +3,7 @@ unit uLogConfig;
 interface
 
 uses
-  System.Classes, System.SysUtils, IniFiles, uLogConsts,
-  JclSysInfo;
+  System.Classes, System.SysUtils, IniFiles, uLogConsts, uRpJclSysInfo;
 
 type
   TLogConfig = class

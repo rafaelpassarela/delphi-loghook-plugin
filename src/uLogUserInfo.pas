@@ -3,7 +3,7 @@ unit uLogUserInfo;
 interface
 
 uses
-  System.SysUtils, uLogWinVersion, JclSysInfo;
+  System.SysUtils, uLogWinVersion, uRpJclSysInfo;
 
 type
   TLogUserInfo = packed record

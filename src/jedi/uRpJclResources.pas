@@ -1,59 +1,9 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclResources.pas.                                                           }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Alexei Koudinov                                                                                }
-{   Barry Kelly                                                                                    }
-{   Flier Lu (flier)                                                                               }
-{   Florent Ouchet (outchy)                                                                        }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   Marcel Bestebroer                                                                              }
-{   Marcel van Brakel                                                                              }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Peter Friese                                                                                   }
-{   Petr Vones (pvones)                                                                            }
-{   Raymond Alexander (rayspostbox3)                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Scott Price (scottprice)                                                                       }
-{   Uwe Schuster (uschuster)                                                                       }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Unit which provides a central place for all resource strings used in the JCL                     }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclResources;
+unit uRpJclResources;
 
 {$I jcl.inc}
 
 interface
 
-{$IFDEF UNITVERSIONING}
-uses
-  JclUnitVersioning;
-{$ENDIF UNITVERSIONING}
 
 //=== JclBase ================================================================
 resourcestring
@@ -2079,26 +2029,6 @@ resourcestring
   RsMidiInUnknownError  = 'Unknown MIDI-In error No. %d';
   RsMidiOutUnknownError = 'Unknown MIDI-Out error No. %d';
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

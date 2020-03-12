@@ -1,44 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclSecurity.pas.                                                            }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All Rights Reserved.  }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Marcel van Brakel                                                                              }
-{   Peter Friese                                                                                   }
-{   Robert Marquardt (marquardt)                                                                   }
-{   John C Molyneux                                                                                }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   Christoph Lindeman                                                                             }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various NT security related routines to perform commen asks such as enabling and disabling       }
-{ privileges.                                                                                      }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclSecurity;
+unit uRpJclSecurity;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -48,15 +8,12 @@ unit JclSecurity;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.SysUtils,
   {$ELSE ~HAS_UNITSCOPE}
   Windows, SysUtils,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 type
   EJclSecurityError = class(EJclError);
@@ -112,18 +69,6 @@ function GetComputerSID(SID: PSID; cbSID: DWORD): Boolean;
 function IsUACEnabled: Boolean;
 function IsElevated: Boolean;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -138,7 +83,7 @@ uses
   AccCtrl,
   {$ENDIF BORLAND}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclRegistry, JclResources, JclStrings, JclSysInfo, JclWin32;
+  uRpJclRegistry, uRpJclResources, uRpJclStrings, uRpJclSysInfo, uRpJclWin32;
 
 //=== Access Control =========================================================
 
@@ -354,7 +299,7 @@ begin
     TokenPriv.PrivilegeCount := 1;
     LookupPrivilegeValue(nil, PChar(Privilege), TokenPriv.Privileges[0].Luid);
     TokenPriv.Privileges[0].Attributes := PrivAttrs[Enable];
-    JclWin32.AdjustTokenPrivileges(Token, False, TokenPriv, SizeOf(TokenPriv), nil, nil);
+    uRpJclWin32.AdjustTokenPrivileges(Token, False, TokenPriv, SizeOf(TokenPriv), nil, nil);
     Result := GetLastError = ERROR_SUCCESS;
     CloseHandle(Token);
   end;
@@ -381,7 +326,7 @@ begin
     TokenPriv.PrivilegeCount := 1;
     LookupPrivilegeValue(nil, PChar(Privilege), TokenPriv.Privileges[0].Luid);
     TokenPriv.Privileges[0].Attributes := PrivAttrs[Enable];
-    JclWin32.AdjustTokenPrivileges(Token, False, TokenPriv, SizeOf(TokenPriv), nil, nil);
+    uRpJclWin32.AdjustTokenPrivileges(Token, False, TokenPriv, SizeOf(TokenPriv), nil, nil);
     Result := GetLastError = ERROR_SUCCESS;
     CloseHandle(Token);
   end;
@@ -835,13 +780,5 @@ begin
   else
     Result := IsAdministrator;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

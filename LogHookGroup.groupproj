@@ -9,6 +9,9 @@
         <Projects Include="RpLogHookLib.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="RpLogHookPackage.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="RpLogHookLib:Make">
         <MSBuild Projects="RpLogHookLib.dproj" Targets="Make"/>
     </Target>
+    <Target Name="RpLogHookPackage">
+        <MSBuild Projects="RpLogHookPackage.dproj"/>
+    </Target>
+    <Target Name="RpLogHookPackage:Clean">
+        <MSBuild Projects="RpLogHookPackage.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RpLogHookPackage:Make">
+        <MSBuild Projects="RpLogHookPackage.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="LogHookTestProj;RpLogHookLib"/>
+        <CallTarget Targets="LogHookTestProj;RpLogHookLib;RpLogHookPackage"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="LogHookTestProj:Clean;RpLogHookLib:Clean"/>
+        <CallTarget Targets="LogHookTestProj:Clean;RpLogHookLib:Clean;RpLogHookPackage:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="LogHookTestProj:Make;RpLogHookLib:Make"/>
+        <CallTarget Targets="LogHookTestProj:Make;RpLogHookLib:Make;RpLogHookPackage:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

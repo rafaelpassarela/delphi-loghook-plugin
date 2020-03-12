@@ -1,39 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclConsole.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Flier Lu. Portions created by Flier Lu are         }
-{ Copyright (C) Flier Lu. All Rights Reserved.                                                     }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Flier Lu (flier)                                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Petr Vones (pvones)                                                                            }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains classes and routines to support windows Character-Mode Applications           }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclConsole;
+unit uRpJclConsole;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -48,15 +13,12 @@ unit JclConsole;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.Classes, System.SysUtils, System.Contnrs,
   {$ELSE ~HAS_UNITSCOPE}
   Windows, Classes, SysUtils, Contnrs,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 // Console
 type
@@ -391,18 +353,6 @@ type
     property EventCount: DWORD read GetEventCount;
   end;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -414,7 +364,7 @@ uses
   {$ELSE ~HAS_UNITSCOPE}
   Math, TypInfo,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclFileUtils, JclResources, JclSysUtils;
+  uRpJclFileUtils, uRpJclResources, uRpJclSysUtils;
 
 {$IFDEF FPC}
 {$EXTERNALSYM CreateConsoleScreenBuffer}
@@ -1544,13 +1494,5 @@ begin
   Evts[0] := Event;
   Result := PutEvents(Evts) = 1;
 end;
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

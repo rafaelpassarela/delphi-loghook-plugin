@@ -1,49 +1,4 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclShell.pas.                                                               }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are Marcel van Brakel and Petr Vones.                }
-{ Portions created by these individuals are Copyright (C) of these individuals.                    }
-{ All Rights Reserved.                                                                             }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Rik Barker (rikbarker)                                                                         }
-{   Marcel van Brakel                                                                              }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   Aleksej Kudinov                                                                                }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Petr Vones (pvones)                                                                            }
-{   kogerbnz                                                                                       }
-{   Florent Ouchet (outchy)                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ This unit contains routines and classes which makes working with the Windows Shell a bit easier. }
-{ Included are routines for working with PIDL's, special folder's, file and folder manipulation    }
-{ through shell interfaces, shortcut's and program execution.                                      }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclShell;
+unit uRpJclShell;
 
 {$I jcl.inc}
 {$I windowsonly.inc}
@@ -51,15 +6,12 @@ unit JclShell;
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   Winapi.Windows, System.SysUtils, Winapi.ShlObj,
   {$ELSE ~HAS_UNITSCOPE}
   Windows, SysUtils, ShlObj,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase, JclWin32, JclSysUtils;
+  uRpJclBase, uRpJclWin32, uRpJclSysUtils;
 
 // Files and Folders
 type
@@ -204,18 +156,6 @@ var
   RtdlMsiGetComponentPath: function(szProduct: LPCTSTR; szComponent: LPCTSTR;
     lpPathBuf: LPTSTR; pcchBuf: LPDWORD): INSTALLSTATE stdcall = nil;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\windows';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -224,7 +164,7 @@ uses
   {$ELSE ~HAS_UNITSCOPE}
   ActiveX, CommCtrl, Messages, ShellAPI,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclFileUtils, JclStrings, JclSysInfo;
+  uRpJclFileUtils, uRpJclStrings, uRpJclSysInfo;
 
 type
   TWidePath = array [0..MAX_PATH-1] of WideChar;
@@ -1596,14 +1536,7 @@ end;
 initialization
   //We don't load the msi functions until the first attempt to resolve an MSI link
 
-  {$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-  {$ENDIF UNITVERSIONING}
-
 finalization
-  {$IFDEF UNITVERSIONING}
-  UnregisterUnitVersion(HInstance);
-  {$ENDIF UNITVERSIONING}
   UnloadModule(rtdlMsiLibHandle);
 
 end.

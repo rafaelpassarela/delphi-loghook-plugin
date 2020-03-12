@@ -1,68 +1,10 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclStrings.pas.                                                             }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
-{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel. All rights reserved.  }
-{                                                                                                  }
-{ Contributor(s):                                                                                  }
-{   Alexander Radchenko                                                                            }
-{   Andreas Hausladen (ahuser)                                                                     }
-{   Anthony Steele                                                                                 }
-{   Azret Botash                                                                                   }
-{   Barry Kelly                                                                                    }
-{   Huanlin Tsai                                                                                   }
-{   Jack N.A. Bakker                                                                               }
-{   Jean-Fabien Connault (cycocrew)                                                                }
-{   John C Molyneux                                                                                }
-{   Leonard Wennekers                                                                              }
-{   Martin Kimmings                                                                                }
-{   Martin Kubecka                                                                                 }
-{   Massimo Maria Ghisalberti                                                                      }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Michael Winter                                                                                 }
-{   Nick Hodges                                                                                    }
-{   Olivier Sannier (obones)                                                                       }
-{   Patrick Kolla                                                                                  }
-{   Pelle F. S. Liljendal                                                                          }
-{   Petr Vones (pvones)                                                                            }
-{   Robert Lee                                                                                     }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Andreas Schmidt                                                                                }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various character and string routines (searching, testing and transforming)                      }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclAnsiStrings;
+unit uRpJclAnsiStrings;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   {$IFDEF MSWINDOWS}
   Winapi.Windows,
@@ -80,7 +22,7 @@ uses
   AnsiStrings,
   {$ENDIF HAS_UNIT_ANSISTRINGS}
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 // Ansi types
 
@@ -579,18 +521,6 @@ var
   AnsiCaseMapReady: Boolean = False;         // true if case map exists
   AnsiCharTypes: array [AnsiChar] of Word;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 uses
@@ -606,7 +536,7 @@ uses
   {$ENDIF}
   {$ENDIF HAS_UNIT_RTLCONSTS}
   {$ENDIF SUPPORTS_UNICODE}
-  JclLogic, JclResources, JclStreams, JclSynch, JclSysUtils;
+  uRpJclLogic, uRpJclResources, uRpJclStreams, uRpJclSynch, uRpJclSysUtils;
 
 //=== Internal ===============================================================
 
@@ -4261,11 +4191,5 @@ end;
 initialization
   LoadCharTypes;  // this table first
   LoadCaseMap;    // or this function does not work
-{$IFDEF UNITVERSIONING}
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.

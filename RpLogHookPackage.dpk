@@ -1,0 +1,72 @@
+package RpLogHookPackage;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'RpLookHook Package (32bits)'}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  vclimg,
+  vcl;
+
+contains
+  uLogWinVersion in 'src\uLogWinVersion.pas',
+  uLogUserInfo in 'src\uLogUserInfo.pas',
+  uLogHook in 'src\uLogHook.pas',
+  uLogControl in 'src\uLogControl.pas',
+  uLogConsts in 'src\uLogConsts.pas',
+  uLogConfig in 'src\uLogConfig.pas',
+  uRpJcl8087 in 'src\jedi\uRpJcl8087.pas',
+  uRpJclAnsiStrings in 'src\jedi\uRpJclAnsiStrings.pas',
+  uRpJclBase in 'src\jedi\uRpJclBase.pas',
+  uRpJclCharsets in 'src\jedi\uRpJclCharsets.pas',
+  uRpJclConsole in 'src\jedi\uRpJclConsole.pas',
+  uRpJclDateTime in 'src\jedi\uRpJclDateTime.pas',
+  uRpJclDebug in 'src\jedi\uRpJclDebug.pas',
+  uRpJclFileUtils in 'src\jedi\uRpJclFileUtils.pas',
+  uRpJclHookExcept in 'src\jedi\uRpJclHookExcept.pas',
+  uRpJclIniFiles in 'src\jedi\uRpJclIniFiles.pas',
+  uRpJclLogic in 'src\jedi\uRpJclLogic.pas',
+  uRpJclMath in 'src\jedi\uRpJclMath.pas',
+  uRpJclPeImage in 'src\jedi\uRpJclPeImage.pas',
+  uRpJclRegistry in 'src\jedi\uRpJclRegistry.pas',
+  uRpJclResources in 'src\jedi\uRpJclResources.pas',
+  uRpJclSecurity in 'src\jedi\uRpJclSecurity.pas',
+  uRpJclShell in 'src\jedi\uRpJclShell.pas',
+  uRpJclStreams in 'src\jedi\uRpJclStreams.pas',
+  uRpJclStringConversions in 'src\jedi\uRpJclStringConversions.pas',
+  uRpJclStrings in 'src\jedi\uRpJclStrings.pas',
+  uRpJclSynch in 'src\jedi\uRpJclSynch.pas',
+  uRpJclSysInfo in 'src\jedi\uRpJclSysInfo.pas',
+  uRpJclSysUtils in 'src\jedi\uRpJclSysUtils.pas',
+  uRpJclTD32 in 'src\jedi\uRpJclTD32.pas',
+  uRpJclUnicode in 'src\jedi\uRpJclUnicode.pas',
+  uRpJclWideStrings in 'src\jedi\uRpJclWideStrings.pas',
+  uRpJclWin32 in 'src\jedi\uRpJclWin32.pas',
+  uRpSnmp in 'src\jedi\uRpSnmp.pas';
+
+end.

@@ -1,63 +1,16 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is JclMath.pas.                                                                }
-{                                                                                                  }
-{ The Initial Developers of the Original Code are Clayton Collie, David Butler, ESB Consultancy,   }
-{ Jean Debord, Marcel van Brakel and Michael Schnell.                                              }
-{ Portions created by these individuals are Copyright (C) of these individuals.                    }
-{ All Rights Reserved.                                                                             }
-{                                                                                                  }
-{ Contributors:                                                                                    }
-{   Ernesto Benestante                                                                             }
-{   Marcel van Brakel                                                                              }
-{   Aleksei Koudinov                                                                               }
-{   Robert Marquardt (marquardt)                                                                   }
-{   Robert Rossmair (rrossmair)                                                                    }
-{   Matthias Thoma (mthoma)                                                                        }
-{   Mark Vaughan                                                                                   }
-{   Andreas Hausladen                                                                              }
-{   unknown                                                                                        }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Various mathematics classes and routines. Includes prime numbers, rational numbers,              }
-{ complex numbers, generic floating point routines, hyperbolic and transcendenatal routines,       }
-{ NAN and INF support and more.                                                                    }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Last modified: $Date::                                                                         $ }
-{ Revision:      $Rev::                                                                          $ }
-{ Author:        $Author::                                                                       $ }
-{                                                                                                  }
-{**************************************************************************************************}
-
-unit JclMath;
+unit uRpJclMath;
 
 {$I jcl.inc}
 
 interface
 
 uses
-  {$IFDEF UNITVERSIONING}
-  JclUnitVersioning,
-  {$ENDIF UNITVERSIONING}
   {$IFDEF HAS_UNITSCOPE}
   System.SysUtils, System.Classes,
   {$ELSE ~HAS_UNITSCOPE}
   SysUtils, Classes,
   {$ENDIF ~HAS_UNITSCOPE}
-  JclBase;
+  uRpJclBase;
 
 { Mathematical constants }
 
@@ -738,7 +691,7 @@ type
     class operator Implicit(const Z: TRectComplex): TPolarComplex;
     {$IFNDEF CPPBUILDER}
     // OK with Delphi, but will yield errors in .hpp files:
-    class operator Explicit(const Z: TPolarComplex): TRectComplex;
+//    class operator Explicit(const Z: TPolarComplex): TRectComplex;
     class operator Explicit(const Z: TRectComplex): TPolarComplex;
     {$ENDIF CPPBUILDER}
     class operator Equal(const Z1, Z2: TPolarComplex): Boolean;
@@ -833,18 +786,6 @@ function CotH(const Z: TRectComplex): TRectComplex; overload;
 function SecH(const Z: TRectComplex): TRectComplex; overload;
 function CscH(const Z: TRectComplex): TRectComplex; overload;
 
-{$IFDEF UNITVERSIONING}
-const
-  UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL$';
-    Revision: '$Revision$';
-    Date: '$Date$';
-    LogPath: 'JCL\source\common';
-    Extra: '';
-    Data: nil
-    );
-{$ENDIF UNITVERSIONING}
-
 implementation
 
 {$IFDEF DELPHI64_TEMPORARY}
@@ -868,9 +809,7 @@ uses
   {$IFDEF USE_MATH_UNIT}
   System.Math,
   {$ENDIF USE_MATH_UNIT}
-  Jcl8087,
-  JclResources,
-  JclSynch;
+  uRpJcl8087, uRpJclResources, uRpJclSynch;
 
 // Note (rrossmair): Usage of the "assembler" directive seems to be an Free Pascal requirement
 // (it's obsolete in Delphi since v. 2 I believe).
@@ -1393,7 +1332,7 @@ end;
 
 function Coversine(X: Float): Float;
 begin
-  Result := 1 - JclMath.Sin(X);
+  Result := 1 - uRpJclMath.Sin(X);
 end;
 
 function Csc(X: Float): Float;
@@ -1402,19 +1341,19 @@ var
 begin
   DomainCheck(Abs(X) > MaxAngle);
 
-  Y := JclMath.Sin(X);
+  Y := uRpJclMath.Sin(X);
   DomainCheck(Y = 0.0);
   Result := 1.0 / Y;
 end;
 
 function Exsecans(X: Float): Float;
 begin
-  Result := JclMath.Sec(X) - 1;
+  Result := uRpJclMath.Sec(X) - 1;
 end;
 
 function Haversine(X: Float): Float;
 begin
-  Result := 0.5 * (1 - JclMath.Cos(X));
+  Result := 0.5 * (1 - uRpJclMath.Cos(X));
 end;
 
 function Sec(X: Float): Float;
@@ -1554,7 +1493,7 @@ end;
 
 function Versine(X: Float): Float;
 begin
-  Result := 1 - JclMath.Cos(X);
+  Result := 1 - uRpJclMath.Cos(X);
 end;
 
 //=== Hyperbolic =============================================================
@@ -1727,19 +1666,19 @@ end;
 
 function CotH(X: Float): Float;
 begin
-  Result := 1 / JclMath.TanH(X);
+  Result := 1 / uRpJclMath.TanH(X);
 end;
 
 function CscH(X: Float): Float;
 begin
-  Result := JclMath.Exp(X) - JclMath.Exp(-X);
+  Result := uRpJclMath.Exp(X) - uRpJclMath.Exp(-X);
   DomainCheck(Result = 0.0);
   Result := 2.0 / Result;
 end;
 
 function SecH(X: Float): Float;
 begin
-  Result := JclMath.Exp(X) + JclMath.Exp(-X);
+  Result := uRpJclMath.Exp(X) + uRpJclMath.Exp(-X);
   DomainCheck(Result = 0.0);
   Result := 2.0 / Result;
 end;
@@ -1747,7 +1686,7 @@ end;
 function SinH(X: Float): Float;
 {$IFDEF PUREPASCAL}
 begin
-  Result := 0.5 * (JclMath.Exp(X) - JclMath.Exp(-X));
+  Result := 0.5 * (uRpJclMath.Exp(X) - uRpJclMath.Exp(-X));
 end;
 {$ELSE ~PUREPASCAL}
 const
@@ -1820,7 +1759,7 @@ begin
       Result := -1.0
     else
     begin
-      Result := JclMath.Exp(X);
+      Result := uRpJclMath.Exp(X);
       Result := Result * Result;
       Result := (Result - 1.0) / (Result + 1.0);
     end;
@@ -1884,13 +1823,13 @@ begin
   end
   else
   if Base > 0.0 then
-    Result := JclMath.Exp(Exponent * System.Ln(Base))
+    Result := uRpJclMath.Exp(Exponent * System.Ln(Base))
   else
   begin
     IsAnInteger := (Frac(Exponent) = 0.0);
     if IsAnInteger then
     begin
-      Result := JclMath.Exp(Exponent * System.Ln(Abs(Base)));
+      Result := uRpJclMath.Exp(Exponent * System.Ln(Abs(Base)));
       IsOdd := Abs(Round(ModFloat(Exponent, 2))) = 1;
       if IsOdd then
         Result := -Result;
@@ -1952,13 +1891,13 @@ begin
   if Y = 0.0 then
     Result := 1.0
   else
-    Result := JclMath.Exp(Y * Ln10);
+    Result := uRpJclMath.Exp(Y * Ln10);
 end;
 
 function TruncPower(const Base, Exponent: Float): Float;
 begin
   if Base > 0 then
-    Result := JclMath.Power(Base, Exponent)
+    Result := uRpJclMath.Power(Base, Exponent)
   else
     Result := 0;
 end;
@@ -1968,7 +1907,7 @@ begin
   if Y = 0.0 then
     Result := 1.0
   else
-    Result := JclMath.Exp(Y * Ln2);
+    Result := uRpJclMath.Exp(Y * Ln2);
 end;
 
 //=== Floating point support routines ========================================
@@ -4264,7 +4203,7 @@ begin
   {$IFDEF DEBUG}
   Inc(ComplexTypeConversions);
   {$ENDIF DEBUG}
-  JclMath.SinCos(Z.Angle, ASin, ACos);
+  uRpJclMath.SinCos(Z.Angle, ASin, ACos);
   Result.Re := Z.Radius * ACos;
   Result.Im := Z.Radius * ASin;
 end;
@@ -4466,7 +4405,7 @@ end;
 
 function Power(const Z: TPolarComplex; const Exponent: Float): TPolarComplex;
 begin
-  Result.Radius := JclMath.Power(Z.Radius, Exponent);
+  Result.Radius := uRpJclMath.Power(Z.Radius, Exponent);
   Result.Angle := NormalizeAngle(Exponent * Z.Angle);
 end;
 
@@ -4483,7 +4422,7 @@ end;
 
 function Root(const Z: TPolarComplex; const K, N: Cardinal): TPolarComplex;
 begin
-  Result.Radius := JclMath.Power(Z.Radius, 1.0 / N);
+  Result.Radius := uRpJclMath.Power(Z.Radius, 1.0 / N);
   Result.Angle := NormalizeAngle((Z.Angle + K * TwoPi) / N);
 end;
 
@@ -4493,18 +4432,18 @@ function Cos(const Z: TRectComplex): TRectComplex;
 var
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(Z.Re, ASin, ACos);
-  Result.Re :=  ACos * JclMath.CosH(Z.Im);
-  Result.Im := -ASin * JclMath.SinH(Z.Im);
+  uRpJclMath.SinCos(Z.Re, ASin, ACos);
+  Result.Re :=  ACos * uRpJclMath.CosH(Z.Im);
+  Result.Im := -ASin * uRpJclMath.SinH(Z.Im);
 end;
 
 function Sin(const Z: TRectComplex): TRectComplex;
 var
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(Z.Re, ASin, ACos);
-  Result.Re := ASin * JclMath.CosH(Z.Im);
-  Result.Im := ACos * JclMath.SinH(Z.Im);
+  uRpJclMath.SinCos(Z.Re, ASin, ACos);
+  Result.Re := ASin * uRpJclMath.CosH(Z.Im);
+  Result.Im := ACos * uRpJclMath.SinH(Z.Im);
 end;
 
 function Tan(const Z: TRectComplex): TRectComplex;
@@ -4512,10 +4451,10 @@ var
   Denom: Float;
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(2.0 * Z.Re, ASin, ACos);
-  Denom := ACos + JclMath.CosH(2.0 * Z.Im);
+  uRpJclMath.SinCos(2.0 * Z.Re, ASin, ACos);
+  Denom := ACos + uRpJclMath.CosH(2.0 * Z.Im);
   Result.Re := ASin / Denom;
-  Result.Im := JclMath.SinH(2.0 * Z.Im) / Denom;
+  Result.Im := uRpJclMath.SinH(2.0 * Z.Im) / Denom;
 end;
 
 function Cot(const Z: TRectComplex): TRectComplex;
@@ -4523,10 +4462,10 @@ var
   Denom: Float;
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(2.0 * Z.Re, ASin, ACos);
-  Denom := JclMath.CosH(2.0 * Z.Im) - ACos;
+  uRpJclMath.SinCos(2.0 * Z.Re, ASin, ACos);
+  Denom := uRpJclMath.CosH(2.0 * Z.Im) - ACos;
   Result.Re := ASin / Denom;
-  Result.Im := -JclMath.SinH(2.0 * Z.Im) / Denom;
+  Result.Im := -uRpJclMath.SinH(2.0 * Z.Im) / Denom;
 end;
 
 function Sec(const Z: TRectComplex): TRectComplex;
@@ -4545,18 +4484,18 @@ function CosH(const Z: TRectComplex): TRectComplex;
 var
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(Z.Im, ASin, ACos);
-  Result.Re := JclMath.CosH(Z.Re) * ACos;
-  Result.Im := JclMath.SinH(Z.Re) * ASin;
+  uRpJclMath.SinCos(Z.Im, ASin, ACos);
+  Result.Re := uRpJclMath.CosH(Z.Re) * ACos;
+  Result.Im := uRpJclMath.SinH(Z.Re) * ASin;
 end;
 
 function SinH(const Z: TRectComplex): TRectComplex;
 var
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(Z.Im, ASin, ACos);
-  Result.Re := JclMath.SinH(Z.Re) * ACos;
-  Result.Im := JclMath.CosH(Z.Re) * ASin;
+  uRpJclMath.SinCos(Z.Im, ASin, ACos);
+  Result.Re := uRpJclMath.SinH(Z.Re) * ACos;
+  Result.Im := uRpJclMath.CosH(Z.Re) * ASin;
 end;
 
 function TanH(const Z: TRectComplex): TRectComplex;
@@ -4564,9 +4503,9 @@ var
   Denom: Float;
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(2.0 * Z.Im, ASin, ACos);
-  Denom := JclMath.CosH(2.0 * Z.Re) + ACos;
-  Result.Re := JclMath.SinH(2.0 * Z.Re) / Denom;
+  uRpJclMath.SinCos(2.0 * Z.Im, ASin, ACos);
+  Denom := uRpJclMath.CosH(2.0 * Z.Re) + ACos;
+  Result.Re := uRpJclMath.SinH(2.0 * Z.Re) / Denom;
   Result.Im := ASin / Denom;
 end;
 
@@ -4575,9 +4514,9 @@ var
   Denom: Float;
   ACos, ASin: Float;
 begin
-  JclMath.SinCos(2.0 * Z.Im, ASin, ACos);
-  Denom := JclMath.CosH(2.0 * Z.Re) - ACos;
-  Result.Re := JclMath.SinH(2.0 * Z.Re) / Denom;
+  uRpJclMath.SinCos(2.0 * Z.Im, ASin, ACos);
+  Denom := uRpJclMath.CosH(2.0 * Z.Re) - ACos;
+  Result.Re := uRpJclMath.SinH(2.0 * Z.Re) / Denom;
   Result.Im := -ASin / Denom;
 end;
 
@@ -4647,12 +4586,12 @@ end;
 
 function TRectComplex.Conjugate: TRectComplex;
 begin
-  Result := JclMath.Conjugate(Self);
+  Result := uRpJclMath.Conjugate(Self);
 end;
 
 function TRectComplex.IsZero: Boolean;
 begin
-  Result := JclMath.IsZero(Self);
+  Result := uRpJclMath.IsZero(Self);
 end;
 
 function TRectComplex.IsInfinite: Boolean;
@@ -4662,7 +4601,7 @@ begin
   System.Error(rePlatformNotImplemented);
   Result := False;
   {$ELSE ~DELPHI64_TEMPORARY}
-  Result := JclMath.IsInfinite(Self);
+  Result := uRpJclMath.IsInfinite(Self);
   {$ENDIF ~DELPHI64_TEMPORARY}
 end;
 
@@ -4684,10 +4623,10 @@ begin
 end;
 
 {$IFNDEF CPPBUILDER}
-class operator TPolarComplex.Explicit(const Z: TPolarComplex): TRectComplex;
-begin
-  Result := RectComplex(Z);
-end;
+//class operator TPolarComplex.Explicit(const Z: TPolarComplex): TRectComplex;
+//begin
+//  Result := RectComplex(Z);
+//end;
 
 class operator TPolarComplex.Explicit(const Z: TRectComplex): TPolarComplex;
 begin
@@ -4742,12 +4681,12 @@ end;
 
 function TPolarComplex.Conjugate: TPolarComplex;
 begin
-  Result := JclMath.Conjugate(Self);
+  Result := uRpJclMath.Conjugate(Self);
 end;
 
 function TPolarComplex.IsZero: Boolean;
 begin
-  Result := JclMath.IsZero(Self);
+  Result := uRpJclMath.IsZero(Self);
 end;
 
 function TPolarComplex.IsInfinite: Boolean;
@@ -4757,38 +4696,30 @@ begin
   System.Error(rePlatformNotImplemented);
   Result := False;
   {$ELSE ~DELPHI64_TEMPORARY}
-  Result := JclMath.IsInfinite(Self);
+  Result := uRpJclMath.IsInfinite(Self);
   {$ENDIF ~DELPHI64_TEMPORARY}
 end;
 
 function TPolarComplex.Power(const Exponent: TRectComplex): TPolarComplex;
 begin
-  Result := JclMath.Power(Self, Exponent);
+  Result := uRpJclMath.Power(Self, Exponent);
 end;
 
 function TPolarComplex.Power(const Exponent: Float): TPolarComplex;
 begin
-  Result := JclMath.Power(Self, Exponent);
+  Result := uRpJclMath.Power(Self, Exponent);
 end;
 
 function TPolarComplex.Power(const Exponent: Integer): TPolarComplex;
 begin
-  Result := JclMath.PowerInt(Self, Exponent);
+  Result := uRpJclMath.PowerInt(Self, Exponent);
 end;
 
 function TPolarComplex.Root(const K, N: Cardinal): TPolarComplex;
 begin
-  Result := JclMath.Root(Self, K, N);
+  Result := uRpJclMath.Root(Self, K, N);
 end;
 
 {$ENDIF SUPPORTS_CLASS_OPERATORS}
-
-{$IFDEF UNITVERSIONING}
-initialization
-  RegisterUnitVersion(HInstance, UnitVersioning);
-
-finalization
-  UnregisterUnitVersion(HInstance);
-{$ENDIF UNITVERSIONING}
 
 end.
