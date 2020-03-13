@@ -2,7 +2,8 @@
 
 ## Remarks
 The application must have **ShareMem** as first unit in  DPR uses clause.
-Remember to Unload the Log Hook DLL on application closes. Ex.: Call on Main formClose LogHook.FinalizeLogHook;
+Remember to Unload the Log Hook DLL on application closes. 
+  Ex.: Call on Main formClose LogHook.FinalizeLogHook;
 
 ## Base IniFile Estruture
 
