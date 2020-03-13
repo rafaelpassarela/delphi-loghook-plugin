@@ -1,8 +1,13 @@
 # delphi-loghook-plugin
 
 ## Remarks
-The application must have **ShareMem** as first unit in  DPR uses clause.
-Remember to Unload the Log Hook DLL on application closes. Ex.: Call on Main formClose LogHook.FinalizeLogHook;
+How to Use:
+1) Build and Install package "RpLogHookPackage"
+2) Configure the search path to "$(BDSCOMMONDIR)\Dcu\"
+3) Add to uses unit list of main .pas file "uLogHook"
+4) On the "initialization" section, call the hoog initializer
+5) On the "finalization" section, call the hoog finalizer
+
 
 ## Base IniFile Estruture
 
