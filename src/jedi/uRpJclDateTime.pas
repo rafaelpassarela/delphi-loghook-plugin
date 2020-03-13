@@ -1,7 +1,7 @@
 unit uRpJclDateTime;
 
-{$I jcl.inc}
-{$I crossplatform.inc}
+{$I RpJCL.inc}
+{$I RpCrossPlatform.inc}
 
 interface
 

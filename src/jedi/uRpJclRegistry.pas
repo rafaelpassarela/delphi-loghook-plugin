@@ -1,6 +1,6 @@
 unit uRpJclRegistry;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 interface

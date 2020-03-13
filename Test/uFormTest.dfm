@@ -2,8 +2,8 @@ object FormLogHookTest: TFormLogHookTest
   Left = 0
   Top = 0
   Caption = 'LogHook Test'
-  ClientHeight = 299
-  ClientWidth = 635
+  ClientHeight = 247
+  ClientWidth = 323
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,99 +11,58 @@ object FormLogHookTest: TFormLogHookTest
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object GroupBoxDirect: TGroupBox
+  object Label1: TLabel
     Left = 8
-    Top = 0
-    Width = 169
-    Height = 103
-    Caption = ' Direct '
-    TabOrder = 0
-    object ButtonStart: TButton
-      Left = 8
-      Top = 16
-      Width = 150
-      Height = 35
-      Caption = 'Start LogHook'
-      TabOrder = 0
-      OnClick = ButtonStartClick
-    end
-    object ButtonStop: TButton
-      Left = 8
-      Top = 57
-      Width = 150
-      Height = 35
-      Caption = 'Stop LogHook'
-      TabOrder = 1
-      OnClick = ButtonStopClick
-    end
+    Top = 8
+    Width = 286
+    Height = 91
+    Caption = 
+      'How to Use:'#13#10'1) Build and Install package "RpLogHookPackage"'#13#10'2)' +
+      ' Configure the search path to "$(BDSCOMMONDIR)\Dcu\"'#13#10'3) Add to ' +
+      'uses unit list of main .pas file "uLogHook"'#13#10'4) On the "initiali' +
+      'zation" section, call the hoog initializer'#13#10'5) On the "finalizat' +
+      'ion" section, call the hoog finalizer'#13#10
   end
   object ButtonDivZero: TButton
     Tag = 1
     Left = 8
-    Top = 176
+    Top = 120
     Width = 150
     Height = 35
     Caption = 'Div by Zero'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = ButtonDivZeroClick
   end
   object ButtonXYZ: TButton
     Tag = 1
     Left = 8
-    Top = 217
+    Top = 161
     Width = 150
     Height = 35
     Caption = 'Convert "XYZ" to Int'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = ButtonXYZClick
   end
   object ButtonSkip: TButton
     Tag = 1
     Left = 8
-    Top = 258
+    Top = 202
     Width = 150
     Height = 35
     Caption = 'Skip - ExptionNoInfo'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = ButtonSkipClick
   end
   object ButtonRaise: TButton
     Tag = 1
     Left = 164
-    Top = 176
+    Top = 120
     Width = 150
     Height = 35
     Caption = 'Raise InOutError'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = ButtonRaiseClick
-  end
-  object GroupBoxDLL: TGroupBox
-    Left = 183
-    Top = 0
-    Width = 169
-    Height = 103
-    Caption = ' DLL Call'
-    TabOrder = 5
-    object ButtonStartDLL: TButton
-      Left = 8
-      Top = 16
-      Width = 150
-      Height = 35
-      Caption = 'Start LogHook'
-      TabOrder = 0
-      OnClick = ButtonStartDLLClick
-    end
-    object ButtonStopDLL: TButton
-      Left = 8
-      Top = 57
-      Width = 150
-      Height = 35
-      Caption = 'Stop LogHook'
-      TabOrder = 1
-      OnClick = ButtonStopDLLClick
-    end
   end
 end

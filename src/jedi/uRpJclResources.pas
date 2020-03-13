@@ -1,6 +1,6 @@
 unit uRpJclResources;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

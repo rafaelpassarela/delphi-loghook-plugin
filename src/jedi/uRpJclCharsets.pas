@@ -1,6 +1,6 @@
 unit uRpJclCharsets;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

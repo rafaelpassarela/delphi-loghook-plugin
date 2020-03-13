@@ -1,6 +1,6 @@
 unit uRpJclSecurity;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 {$HPPEMIT '#define TTokenInformationClass TOKEN_INFORMATION_CLASS'}

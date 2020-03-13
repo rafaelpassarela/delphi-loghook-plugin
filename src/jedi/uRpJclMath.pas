@@ -1,6 +1,6 @@
 unit uRpJclMath;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

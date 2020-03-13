@@ -2,7 +2,7 @@ unit uRpJclTD32;
 
 interface
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 uses

@@ -2,7 +2,7 @@ unit uRpSnmp;
 
 interface
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 {$DEFINE SNMP_DYNAMIC_LINK}

@@ -1,6 +1,6 @@
 unit uRpJclIniFiles;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

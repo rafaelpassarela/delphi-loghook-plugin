@@ -1,6 +1,6 @@
 unit uRpJclConsole;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 {$HPPEMIT 'namespace JclConsole'}

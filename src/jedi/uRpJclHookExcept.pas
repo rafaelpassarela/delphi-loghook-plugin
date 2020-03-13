@@ -2,7 +2,7 @@ unit uRpJclHookExcept;
 
 interface
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 uses

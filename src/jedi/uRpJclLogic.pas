@@ -1,7 +1,7 @@
 unit uRpJclLogic;
 
 {.$DEFINE PUREPASCAL}
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$RANGECHECKS OFF}
 
 interface

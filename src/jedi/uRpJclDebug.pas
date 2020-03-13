@@ -2,7 +2,7 @@ unit uRpJclDebug;
 
 interface
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 uses

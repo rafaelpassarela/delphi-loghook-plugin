@@ -9,6 +9,8 @@ uses
   uLogUserInfo, uLogControl;
 
 type
+  ExceptionNoInfo = class(Exception);
+
   LogHook = class
   private
     class var _LogControl: TLogControl;

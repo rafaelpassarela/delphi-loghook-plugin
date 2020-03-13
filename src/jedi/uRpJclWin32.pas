@@ -1,6 +1,6 @@
 unit uRpJclWin32;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 {$I windowsonly.inc}
 
 {$MINENUMSIZE 4}

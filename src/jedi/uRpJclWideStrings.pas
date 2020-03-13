@@ -1,6 +1,6 @@
 unit uRpJclWideStrings;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

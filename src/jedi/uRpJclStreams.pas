@@ -1,6 +1,6 @@
 unit uRpJclStreams;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

@@ -1,6 +1,6 @@
 unit uRpJcl8087;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

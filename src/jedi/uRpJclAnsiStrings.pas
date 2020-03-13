@@ -1,6 +1,6 @@
 unit uRpJclAnsiStrings;
 
-{$I jcl.inc}
+{$I RpJCL.inc}
 
 interface
 

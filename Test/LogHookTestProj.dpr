@@ -10,8 +10,7 @@ uses
   uLogWinVersion in '..\src\uLogWinVersion.pas',
   uLogUserInfo in '..\src\uLogUserInfo.pas',
   uLogControl in '..\src\uLogControl.pas',
-  uLogWrapper in '..\src\uLogWrapper.pas',
-  LogHook in '..\plugin\LogHook.pas';
+  uLogWrapper in '..\src\uLogWrapper.pas';
 
 {$R *.res}
 

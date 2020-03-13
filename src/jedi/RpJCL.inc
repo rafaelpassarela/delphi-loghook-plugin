@@ -203,7 +203,7 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld16win64.inc}
+      {$I RpJCLd16win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -215,13 +215,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld17win32.inc}
+      {$I RpJCLd17win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld17win64.inc}
+      {$I RpJCLd17win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -233,13 +233,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld18win32.inc}
+      {$I RpJCLd18win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld18win64.inc}
+      {$I RpJCLd18win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -251,13 +251,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld19win32.inc}
+      {$I RpJCLd19win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld19win64.inc}
+      {$I RpJCLd19win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -269,13 +269,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld20win32.inc}
+      {$I RpJCLd20win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld20win64.inc}
+      {$I RpJCLd20win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -287,13 +287,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld21win32.inc}
+      {$I RpJCLd21win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld21win64.inc}
+      {$I RpJCLd21win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -305,13 +305,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld22win32.inc}
+      {$I RpJCLd22win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld22win64.inc}
+      {$I RpJCLd22win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -323,13 +323,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld23win32.inc}
+      {$I RpJCLd23win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld23win64.inc}
+      {$I RpJCLd23win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -341,13 +341,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld24win32.inc}
+      {$I RpJCLd24win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld24win64.inc}
+      {$I RpJCLd24win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -359,13 +359,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld25win32.inc}
+      {$I RpJCLd25win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld25win64.inc}
+      {$I RpJCLd25win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
@@ -377,13 +377,13 @@ ALERT_jedi_inc_incompatible
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld26win32.inc}
+      {$I RpJCLd26win32.inc}
       {$ENDIF CPUX86}
       {$IFDEF CPUX64}
       // This file should be located in directory jcl/source/include
       // It is automatically created by the JCL installer
       // For manual installations, copy and adjust jcl/source/include/jcl.template.inc
-      {$I jcld26win64.inc}
+      {$I RpJCLd26win64.inc}
       {$ENDIF CPUX64}
       {$DEFINE JCL_CONFIGURED}
       {$ENDIF MSWINDOWS}
