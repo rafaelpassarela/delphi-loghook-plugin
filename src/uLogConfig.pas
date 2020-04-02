@@ -39,6 +39,7 @@ type
     property OutputDir : string read FOutputDir;
     property TakeScreenShot : Boolean read FTakeScreenShot;
     property ImageQuality : Integer read FImageQuality;
+    property ConfigFilePath : string read FConfigFilePath;
 
     function GetNextExceptionNumber : Integer;
     procedure ReLoadConfig;

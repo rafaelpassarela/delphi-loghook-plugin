@@ -25,6 +25,7 @@ type
     class procedure LeaveCriticalArea;
 
     class function LogActive: Boolean;
+    class function LogFileName: string;
     class function GetLogDir: string;
 
     class procedure Initialize(const pIniFile : string);
@@ -116,6 +117,11 @@ end;
 class function LogHook.LogActive: Boolean;
 begin
   Result := _LogControl.Config.Active;
+end;
+
+class function LogHook.LogFileName: string;
+begin
+  Result := _LogControl.Config.ConfigFilePath;
 end;
 
 initialization
