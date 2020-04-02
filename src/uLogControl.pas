@@ -249,7 +249,8 @@ var
           end;
         end;
     finally
-      lMouseIcon.Free;
+      if Assigned(lMouseIcon) then
+        FreeAndNil(lMouseIcon);
     end;
   end;
 
@@ -287,7 +288,10 @@ begin
 
       lJPG.SaveToFile( lImgName );
     finally
-      FreeAndNil(lJPG);
+      if Assigned(lJPG) then
+        FreeAndNil(lJPG);
+      if Assigned(lCanvas) then
+        FreeAndNil(lCanvas);
       Free;
     end;
   end;
